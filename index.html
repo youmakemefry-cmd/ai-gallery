@@ -28,6 +28,28 @@
             letter-spacing: 1px;
         }
 
+        /* --- LIGHTBOX (ПОЛНОЭКРАННЫЙ ПРОСМОТР) --- */
+        .lightbox {
+            display: none;
+            position: fixed;
+            z-index: 10000;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(10, 10, 14, 0.95);
+            justify-content: center;
+            align-items: center;
+            cursor: zoom-out;
+        }
+        .lightbox img {
+            max-width: 95%;
+            max-height: 95%;
+            object-fit: contain;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,0,0,0.6);
+        }
+
         .gallery-container {
             display: flex;
             flex-direction: column;
@@ -113,6 +135,7 @@
             border-radius: 8px;
             overflow: hidden;
             box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            cursor: zoom-in;
         }
 
         .slider-wrapper img {
@@ -252,31 +275,57 @@
             background: #374151;
         }
 
+        /* --- ИЗОЛИРОВАННЫЕ НАСТРОЙКИ ДЛЯ МОБИЛЬНЫХ (АДАПТИВ) --- */
         @media (max-width: 1000px) {
+            body {
+                padding: 10px;
+            }
             .folder-row {
                 grid-template-columns: 1fr;
+                padding: 16px;
+                gap: 20px;
             }
             .thumbnails-wrapper {
-                height: 250px;
+                height: 160px; /* Жестко фиксируем высоту блока прокрутки */
+                min-height: auto;
             }
             .thumbnails-container {
+                position: relative;
                 flex-direction: row;
                 overflow-x: auto;
                 overflow-y: hidden;
+                align-items: center;
+                padding-bottom: 10px;
             }
             .thumbnail-card {
-                min-width: 150px;
-                flex: 0 0 auto;
+                width: 140px; /* Фиксируем ширину карточки на мобильных */
+                height: 130px; /* Фиксируем высоту карточки */
+                flex: 0 0 auto; /* Запрещаем сжатие или растяжение */
+                padding: 6px;
+            }
+            .thumbnail-card img {
+                width: 100%;
+                height: 85px;
+                object-fit: cover; /* Исключаем любую дисторсию и растягивание */
+                flex: none;
+            }
+            .thumbnail-label {
+                font-size: 0.75rem;
             }
             .folder-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 15px;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
             }
         }
     </style>
 </head>
 <body>
+
+    <!-- Компонент полноэкранного просмотра -->
+    <div class="lightbox" id="lightbox" onclick="this.style.display='none'">
+        <img id="lightbox-img" src="" alt="Full size Overview">
+    </div>
 
     <h1>Progression Series Overview</h1>
     <div class="gallery-container" id="gallery"></div>
@@ -284,15 +333,21 @@
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const gallery = document.getElementById('gallery');
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
 
-            // Загружаем данные из json файла
+            // Функция открытия полноэкранного режима
+            function openLightbox(src) {
+                lightboxImg.src = src;
+                lightbox.style.display = 'flex';
+            }
+
             async function loadAllFolders() {
                 try {
                     const response = await fetch('./gallery.json');
                     if (!response.ok) throw new Error('Cannot load gallery.json');
                     const data = await response.json();
                     
-                    // Сортируем ключи (папки) как числа
                     const sortedFolders = Object.keys(data).sort((a, b) => parseInt(a) - parseInt(b));
                     
                     for (const folderNum of sortedFolders) {
@@ -373,6 +428,12 @@
                     sliderLine.style.left = `${value}%`;
                 });
 
+                // Клик по главному слайдеру открывает текущую активную картинку во весь экран
+                sliderWrapper.addEventListener('click', (e) => {
+                    if (e.target === sliderInput) return; // игнорируем ползунок, чтобы можно было перетаскивать
+                    openLightbox(toggleCheckbox.checked ? activeSrc : activeSrc);
+                });
+
                 toggleCheckbox.addEventListener('change', updateDisplayMode);
 
                 sliderWrapper.append(imgOriginal, imgModified, sliderInput, sliderLine);
@@ -407,6 +468,12 @@
                     thumbContainer.appendChild(thumbCard);
 
                     thumbCard.addEventListener('click', () => {
+                        // Если карточка уже активна — по повторному тапу открываем её фуллскрин
+                        if (thumbCard.classList.contains('active')) {
+                            openLightbox(imgPath);
+                            return;
+                        }
+
                         activeSrc = imgPath;
                         const allThumbs = thumbContainer.querySelectorAll('.thumbnail-card');
                         allThumbs.forEach(t => t.classList.remove('active'));
