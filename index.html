@@ -148,6 +148,7 @@
         }
 
         .img-modified {
+            /* Базовое значение переопределяется из JS для рандомизации на ПК */
             clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
         }
 
@@ -280,7 +281,7 @@
         @media (max-width: 1000px) {
             body {
                 padding: 10px;
-                overflow-x: hidden; /* Полный запрет на покачивание страницы влево-вправо */
+                overflow-x: hidden;
             }
             
             .gallery-container {
@@ -294,12 +295,12 @@
                 gap: 20px;
                 max-width: 100%;
                 box-sizing: border-box;
-                overflow: hidden; /* Заставляем карточку держать внутренности в узде */
+                overflow: hidden;
             }
 
             .slider-wrapper {
                 width: 100%;
-                min-width: 0; /* Снимаем ограничение на минимальное сжатие в гридах */
+                min-width: 0;
             }
 
             .thumbnails-wrapper {
@@ -312,7 +313,7 @@
             .thumbnails-container {
                 position: relative;
                 flex-direction: row;
-                overflow-x: auto; /* Включаем горизонтальную ленту */
+                overflow-x: auto;
                 overflow-y: hidden;
                 align-items: center;
                 padding-bottom: 10px;
@@ -321,9 +322,9 @@
             }
 
             .thumbnail-card {
-                width: 130px; /* Жесткая ширина карточки в мобильной ленте */
-                height: 125px; /* Жесткая высота */
-                flex: 0 0 auto; /* Запрещаем Safari деформировать или раздувать элемент */
+                width: 130px;
+                height: 125px;
+                flex: 0 0 auto;
                 padding: 8px;
             }
 
@@ -348,7 +349,6 @@
 </head>
 <body>
 
-    <!-- Контейнер полноэкранного просмотра -->
     <div class="lightbox" id="lightbox" onclick="this.style.display='none'">
         <img id="lightbox-img" src="" alt="Full size Overview">
     </div>
@@ -362,7 +362,6 @@
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
 
-            // Функция открытия полноэкранного режима
             function openLightbox(src) {
                 lightboxImg.src = src;
                 lightbox.style.display = 'flex';
@@ -374,10 +373,18 @@
                     if (!response.ok) throw new Error('Cannot load gallery.json');
                     const data = await response.json();
                     
-                    const sortedFolders = Object.keys(data).sort((a, b) => parseInt(a) - parseInt(b));
+                    // ТОЧЕЧНОЕ ОБНОВЛЕНИЕ 3: Получаем блок кастомных названий полок
+                    const customTitles = data._titles || {};
+                    
+                    // Исключаем ключ _titles из общего списка папок перед сортировкой
+                    const sortedFolders = Object.keys(data)
+                        .filter(key => key !== '_titles')
+                        .sort((a, b) => parseInt(a) - parseInt(b));
                     
                     for (const folderNum of sortedFolders) {
-                        createFolderBlock(folderNum, data[folderNum]);
+                        // Если в JSON есть кастомное имя для этой папки — берем его, иначе пишем дефолтное
+                        const currentTitle = customTitles[folderNum] ? customTitles[folderNum] : `Folder #${folderNum}`;
+                        createFolderBlock(folderNum, data[folderNum], currentTitle);
                     }
                 } catch (error) {
                     console.error("Error loading gallery:", error);
@@ -385,7 +392,7 @@
                 }
             }
 
-            function createFolderBlock(folderNum, images) {
+            function createFolderBlock(folderNum, images, folderTitle) {
                 const row = document.createElement('div');
                 row.className = 'folder-row';
                 
@@ -394,7 +401,8 @@
                 
                 const title = document.createElement('h3');
                 title.className = 'folder-title';
-                title.textContent = `Folder #${folderNum} (${images.length} images)`;
+                // Подставляем сформированное имя полки
+                title.textContent = `${folderTitle} (${images.length} images)`;
                 
                 const toggleLabel = document.createElement('label');
                 toggleLabel.className = 'toggle-label';
@@ -423,15 +431,27 @@
                 imgOriginal.src = originalSrc;
                 imgModified.src = activeSrc; 
 
+                // ТОЧЕЧНОЕ ОБНОВЛЕНИЕ 1: Рандомные стартовые положения слайдеров на ПК версии
+                let startPos = 50;
+                if (window.innerWidth > 1000) {
+                    // Варианты позиций. Значение 90 добавлено один раз, чтобы выпадать значительно реже остальных
+                    const positions = [10, 25, 25, 50, 50, 75, 75, 90];
+                    startPos = positions[Math.floor(Math.random() * positions.length)];
+                }
+
                 const sliderInput = document.createElement('input');
                 sliderInput.type = 'range';
                 sliderInput.min = '0';
                 sliderInput.max = '100';
-                sliderInput.value = '50';
+                sliderInput.value = startPos;
                 sliderInput.className = 'slider-input';
 
                 const sliderLine = document.createElement('div');
                 sliderLine.className = 'slider-line';
+                
+                // Принудительно выставляем начальное состояние линии и обрезки на основе рандома
+                sliderLine.style.left = `${startPos}%`;
+                imgModified.style.clipPath = `polygon(${startPos}% 0, 100% 0, 100% 100%, ${startPos}% 100%)`;
 
                 function updateDisplayMode() {
                     if (toggleCheckbox.checked) {
@@ -454,9 +474,8 @@
                     sliderLine.style.left = `${value}%`;
                 });
 
-                // Клик по слайдеру открывает полноэкранный просмотр
                 sliderWrapper.addEventListener('click', (e) => {
-                    if (e.target === sliderInput) return; // Пропускаем клики по ползунку
+                    if (e.target === sliderInput) return; 
                     openLightbox(activeSrc);
                 });
 
@@ -484,7 +503,9 @@
                     
                     const badgeText = i === 0 ? "ORIGINAL" : `AI VARIATION ${i}`;
                     const badgeClass = i === 0 ? "badge original" : "badge";
-                    label.innerHTML = `<span class="${badgeClass}">${badgeText}</span><br/>${images[i]}`;
+                    
+                    // ТОЧЕЧНОЕ ОБНОВЛЕНИЕ 2: Полностью убрали вывод названия файла из верстки
+                    label.innerHTML = `<span class="${badgeClass}">${badgeText}</span>`;
                     
                     const thumbImg = document.createElement('img');
                     const imgPath = `${folderNum}/${images[i]}`;
@@ -494,7 +515,6 @@
                     thumbContainer.appendChild(thumbCard);
 
                     thumbCard.addEventListener('click', () => {
-                        // Если карточка уже активна — повторный тап открывает её в Lightbox
                         if (thumbCard.classList.contains('active')) {
                             openLightbox(imgPath);
                             return;

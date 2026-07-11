@@ -1,19 +1,41 @@
 {
+  "_titles": {
+    "1": "Crisp Realistic Cityscape 8k",
+    "2": "Glitch Shadow Parkour Trinity Wall Flip",
+    "3": "Cyberpunk Parkour Leap v2",
+    "4": "Handstand Celestial Vortex",
+    "5": "Charred Ruin Light Rays",
+    "6": "Chaotic Stormy Evil Crossroads",
+    "7": "Ethereal Alien Crystal Temple",
+    "8": "Cyberpunk Rooftop",
+    "9": "WWI Trench Night Film Still",
+    "10": "High-Fashion Foggy Dreamscape",
+    "11": "Cyberpunk skate scene",
+    "12": "Surreal Beach Bench",
+    "13": "Bioluminescent Forest Entities",
+    "14": "Gold Obsidian Orb Macro",
+    "15": "Cinematic Welder Arc Light",
+    "16": "Ribcage Portal Cosmic Void",
+    "20": "Ritual Circle Flower Blend",
+    "21": "Sci-Fi Plasma Warrior",
+    "22": "Surreal Horse-Mask",
+    "23": "Holographic Scull"
+  },
   "1": [
     "1-1.jpg",
     "Crisp Realistic Cityscape 8k.jpg",
     "Dystopian Brutalist Megastructure.jpg",
-    "Lone Figure_ New Setting (1).jpg",
+    "Lone Figure_ New Setting v2.jpg",
     "Lone Figure_ New Setting.jpg"
   ],
   "10": [
     "3.jpg",
-    "Couch on Fire Portrait (1).jpg",
+    "Couch on Fire Portrait v2.jpg",
     "High-Fashion Foggy Dreamscape.jpg"
   ],
   "11": [
     "16.jpg",
-    "Cyberpunk skate scene (1).jpg",
+    "Cyberpunk skate scene v2.jpg",
     "Realistic Fire Skateboard Redraw.jpg"
   ],
   "12": [
@@ -27,7 +49,7 @@
   ],
   "14": [
     "45.jpg",
-    "Gold Obsidian Orb Macro (1).jpg",
+    "Gold Obsidian Orb Macro v2.jpg",
     "Gold Obsidian Orb Macro.jpg"
   ],
   "15": [
@@ -37,17 +59,17 @@
   ],
   "16": [
     "46.JPG",
-    "Ribcage Portal Cosmic Void (1).jpg",
+    "Ribcage Portal Cosmic Void v2.jpg",
     "Ribcage Portal Cosmic Void.jpg"
   ],
   "2": [
     "7.jpg",
-    "Glitch Shadow Parkour.jpg"
+    "Glitch Shadow Parkour Trinity Wall Flip.jpg"
   ],
   "20": [
     "2-2.jpg",
     "2.jpg",
-    "Ritual Circle Flower Blend (1).jpg",
+    "Ritual Circle Flower Blend v2.jpg",
     "Ritual Circle Flower Blend.jpg"
   ],
   "21": [
@@ -55,29 +77,29 @@
     "Sci-Fi Plasma Warrior.jpg"
   ],
   "22": [
-    "100x Insanity Horse-Head Shot (1).jpg",
     "21.jpg",
+    "Insanity Horse-Head Shot v2.jpg",
     "Surreal Horse-Mask Oil Painting.jpg"
   ],
   "23": [
     "44.jpg",
-    "Depressive Phonk Skull Cover (1).jpg",
-    "Holographic Skull Diagnostic.jpg"
+    "A Holographic Skull Diagnostic.jpg",
+    "Depressive Phonk Skull Cover v2.jpg"
   ],
   "3": [
     "6.jpg",
-    "Cyberpunk Parkour Leap (1).jpg"
+    "Cyberpunk Parkour Leap v2.jpg"
   ],
   "4": [
     "41.jpg",
-    "Handstand Celestial Vortex (1).jpg",
+    "Handstand Celestial Vortex v2.jpg",
     "Handstand Celestial Vortex.jpg",
     "Infernal Apocalyptic Handstand.jpg"
   ],
   "5": [
     "42.jpg",
     "Charred Ruin Light Rays.jpg",
-    "Logos Removed.jpg"
+    "Cleaned Up.jpg"
   ],
   "6": [
     "43.jpg",
@@ -87,17 +109,17 @@
   "7": [
     "34.jpg",
     "Ethereal Alien Crystal Temple.jpg",
-    "Futuristic Cathedral (1).jpg",
+    "Futuristic Cathedral v2.jpg",
     "Futuristic Cathedral.jpg"
   ],
   "8": [
     "50-2.jpg",
-    "Cyberpunk Rooftop (1).jpg",
+    "Cyberpunk Rooftop v2.jpg",
     "Cyberpunk Rooftop.jpg"
   ],
   "9": [
     "35.jpg",
-    "WWI Trench Night Film Still (1).jpg",
+    "WWI Trench Night Film Still v2.jpg",
     "WWI Trench Night Film Still.jpg"
   ]
 }
