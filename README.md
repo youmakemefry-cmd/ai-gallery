@@ -28,14 +28,14 @@ Each folder should contain your source file (typically the first one) and your A
 /2/
   ...
 2. Generate the Index
-Since GitHub Pages is a static host, the engine reads your folder structure from a gallery.json file. Use the provided main.py script to generate it automatically:
+Since GitHub Pages is a static host, the engine reads your folder structure from a gallery.json file. Use the provided build.py script to generate it automatically:
 
-Place main.py in your project root.
+Place build.py in your project root.
 
 Run the script via terminal:
 
 Bash
-python main.py
+python build.py
 This will scan your folders and generate the gallery.json file automatically.
 
 3. Deploy
