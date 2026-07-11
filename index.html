@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Progression Gallery</title>
+    <style>
+        :root {
+            --bg-color: #0f0f13;
+            --card-bg: #1a1a21;
+            --accent: #7c3aed;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        .gallery-container {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+
+        .folder-row {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            align-items: stretch;
+        }
+
+        .folder-header {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #2d2d38;
+            padding-bottom: 15px;
+            margin: 0;
+        }
+
+        .folder-title {
+            margin: 0;
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .toggle-label {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.95rem;
+            color: var(--text-main);
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .toggle-checkbox {
+            appearance: none;
+            width: 40px;
+            height: 22px;
+            background: #2d2d38;
+            border-radius: 20px;
+            position: relative;
+            cursor: pointer;
+            outline: none;
+            transition: background 0.3s;
+        }
+
+        .toggle-checkbox::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 16px;
+            height: 16px;
+            background: #fff;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-checkbox:checked {
+            background: var(--accent);
+        }
+
+        .toggle-checkbox:checked::after {
+            transform: translateX(18px);
+        }
+
+        .slider-wrapper {
+            position: relative;
+            width: 100%;
+            aspect-ratio: 16 / 9; 
+            background: #000;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+        }
+
+        .slider-wrapper img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: contain; 
+        }
+
+        .img-modified {
+            clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
+        }
+
+        .slider-input {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            z-index: 10;
+            cursor: ew-resize;
+        }
+
+        .slider-line {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 2px;
+            background-color: var(--accent);
+            z-index: 5;
+            pointer-events: none;
+            box-shadow: 0 0 10px rgba(124, 58, 237, 0.8);
+        }
+
+        .slider-line::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20px;
+            height: 20px;
+            background-color: var(--bg-color);
+            border: 3px solid var(--accent);
+            border-radius: 50%;
+        }
+
+        .thumbnails-wrapper {
+            position: relative;
+            min-height: 100%;
+        }
+
+        .thumbnails-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #4b4b5c #1a1a21;
+        }
+
+        .thumbnails-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        .thumbnails-container::-webkit-scrollbar-track {
+            background: #1a1a21;
+            border-radius: 4px;
+        }
+        .thumbnails-container::-webkit-scrollbar-thumb {
+            background: #4b4b5c;
+            border-radius: 4px;
+        }
+        .thumbnails-container::-webkit-scrollbar-thumb:hover {
+            background: var(--accent);
+        }
+
+        .thumbnail-card {
+            background: #25252e;
+            border-radius: 8px;
+            padding: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: 2px solid transparent;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            flex: 1 1 0;
+            min-height: 110px; 
+        }
+
+        .thumbnail-card:hover {
+            transform: translateY(-2px);
+            background: #2c2c36;
+        }
+
+        .thumbnail-card.active {
+            border-color: var(--accent);
+            background: rgba(124, 58, 237, 0.1);
+        }
+
+        .thumbnail-card img {
+            width: 100%;
+            height: 100%;
+            flex: 1; 
+            object-fit: cover;
+            border-radius: 4px;
+            min-height: 0; 
+        }
+
+        .thumbnail-label {
+            flex: 0 0 auto;
+            font-size: 0.85rem;
+            text-align: center;
+            color: var(--text-muted);
+            word-break: break-all;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: #000;
+            font-size: 0.7rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-bottom: 5px;
+        }
+        
+        .badge.original {
+            background: #374151;
+        }
+
+        @media (max-width: 1000px) {
+            .folder-row {
+                grid-template-columns: 1fr;
+            }
+            .thumbnails-wrapper {
+                height: 250px;
+            }
+            .thumbnails-container {
+                flex-direction: row;
+                overflow-x: auto;
+                overflow-y: hidden;
+            }
+            .thumbnail-card {
+                min-width: 150px;
+                flex: 0 0 auto;
+            }
+            .folder-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Progression Series Overview</h1>
+    <div class="gallery-container" id="gallery"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const gallery = document.getElementById('gallery');
+
+            // Загружаем данные из json файла
+            async function loadAllFolders() {
+                try {
+                    const response = await fetch('./gallery.json');
+                    if (!response.ok) throw new Error('Cannot load gallery.json');
+                    const data = await response.json();
+                    
+                    // Сортируем ключи (папки) как числа
+                    const sortedFolders = Object.keys(data).sort((a, b) => parseInt(a) - parseInt(b));
+                    
+                    for (const folderNum of sortedFolders) {
+                        createFolderBlock(folderNum, data[folderNum]);
+                    }
+                } catch (error) {
+                    console.error("Error loading gallery:", error);
+                    gallery.innerHTML = '<p style="text-align:center">Error loading gallery.json. Did you create it?</p>';
+                }
+            }
+
+            function createFolderBlock(folderNum, images) {
+                const row = document.createElement('div');
+                row.className = 'folder-row';
+                
+                const header = document.createElement('div');
+                header.className = 'folder-header';
+                
+                const title = document.createElement('h3');
+                title.className = 'folder-title';
+                title.textContent = `Folder #${folderNum} (${images.length} images)`;
+                
+                const toggleLabel = document.createElement('label');
+                toggleLabel.className = 'toggle-label';
+                
+                const toggleCheckbox = document.createElement('input');
+                toggleCheckbox.type = 'checkbox';
+                toggleCheckbox.className = 'toggle-checkbox';
+                toggleCheckbox.checked = true;
+                
+                toggleLabel.append(toggleCheckbox, " Compare Mode");
+                header.append(title, toggleLabel);
+                row.appendChild(header);
+
+                const sliderWrapper = document.createElement('div');
+                sliderWrapper.className = 'slider-wrapper';
+
+                const imgOriginal = document.createElement('img');
+                imgOriginal.className = 'img-original';
+                
+                const imgModified = document.createElement('img');
+                imgModified.className = 'img-modified';
+
+                const originalSrc = `${folderNum}/${images[0]}`;
+                let activeSrc = `${folderNum}/${images[1]}`; 
+
+                imgOriginal.src = originalSrc;
+                imgModified.src = activeSrc; 
+
+                const sliderInput = document.createElement('input');
+                sliderInput.type = 'range';
+                sliderInput.min = '0';
+                sliderInput.max = '100';
+                sliderInput.value = '50';
+                sliderInput.className = 'slider-input';
+
+                const sliderLine = document.createElement('div');
+                sliderLine.className = 'slider-line';
+
+                function updateDisplayMode() {
+                    if (toggleCheckbox.checked) {
+                        sliderInput.style.display = 'block';
+                        sliderLine.style.display = 'block';
+                        imgModified.style.display = 'block';
+                        imgOriginal.src = originalSrc;
+                        imgModified.src = activeSrc;
+                    } else {
+                        sliderInput.style.display = 'none';
+                        sliderLine.style.display = 'none';
+                        imgModified.style.display = 'none';
+                        imgOriginal.src = activeSrc;
+                    }
+                }
+
+                sliderInput.addEventListener('input', (e) => {
+                    const value = e.target.value;
+                    imgModified.style.clipPath = `polygon(${value}% 0, 100% 0, 100% 100%, ${value}% 100%)`;
+                    sliderLine.style.left = `${value}%`;
+                });
+
+                toggleCheckbox.addEventListener('change', updateDisplayMode);
+
+                sliderWrapper.append(imgOriginal, imgModified, sliderInput, sliderLine);
+                row.appendChild(sliderWrapper);
+
+                const thumbWrapper = document.createElement('div');
+                thumbWrapper.className = 'thumbnails-wrapper';
+
+                const thumbContainer = document.createElement('div');
+                thumbContainer.className = 'thumbnails-container';
+                thumbWrapper.appendChild(thumbContainer);
+                row.appendChild(thumbWrapper);
+
+                for (let i = 0; i < images.length; i++) {
+                    const thumbCard = document.createElement('div');
+                    thumbCard.className = 'thumbnail-card';
+                    
+                    if (i === 1) thumbCard.classList.add('active'); 
+                    
+                    const label = document.createElement('div');
+                    label.className = 'thumbnail-label';
+                    
+                    const badgeText = i === 0 ? "ORIGINAL" : `AI VARIATION ${i}`;
+                    const badgeClass = i === 0 ? "badge original" : "badge";
+                    label.innerHTML = `<span class="${badgeClass}">${badgeText}</span><br/>${images[i]}`;
+                    
+                    const thumbImg = document.createElement('img');
+                    const imgPath = `${folderNum}/${images[i]}`;
+                    thumbImg.src = imgPath;
+                    
+                    thumbCard.append(label, thumbImg);
+                    thumbContainer.appendChild(thumbCard);
+
+                    thumbCard.addEventListener('click', () => {
+                        activeSrc = imgPath;
+                        const allThumbs = thumbContainer.querySelectorAll('.thumbnail-card');
+                        allThumbs.forEach(t => t.classList.remove('active'));
+                        thumbCard.classList.add('active');
+                        updateDisplayMode();
+                    });
+                }
+
+                gallery.appendChild(row);
+            }
+
+            loadAllFolders();
+        });
+    </script>
+</body>
+</html>
