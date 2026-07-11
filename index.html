@@ -67,6 +67,7 @@
             gap: 30px;
             box-shadow: 0 10px 25px rgba(0,0,0,0.3);
             align-items: stretch;
+            min-width: 0; /* Предотвращаем расширение грид-контейнера */
         }
 
         .folder-header {
@@ -77,13 +78,16 @@
             border-bottom: 1px solid #2d2d38;
             padding-bottom: 15px;
             margin: 0;
+            width: 100%; /* Удерживаем в границах */
+            min-width: 0; /* Обязательно для ограничения flex-детей */
+            box-sizing: border-box;
         }
 
         /* --- ОБЕРТКА И СТИЛИ ДЛЯ ЗАГОЛОВКА С ТУЛТИПОМ --- */
         .folder-title-wrapper {
             position: relative;
-            flex: 1;
-            min-width: 0; /* Обязательно для работы text-overflow во flex-контейнере */
+            flex: 1 1 0px; /* ЖЕСТКИЙ ЗАПРЕТ на расширение обертки */
+            min-width: 0; /* ЖЕСТКИЙ ЗАПРЕТ на выдавливание контентом */
             margin-right: 15px;
         }
 
@@ -91,10 +95,12 @@
             margin: 0;
             font-size: 1.2rem;
             color: var(--text-muted);
-            white-space: nowrap; /* Строго одна строка */
+            white-space: nowrap; 
             overflow: hidden;
-            text-overflow: ellipsis; /* Троеточие при переполнении */
+            text-overflow: ellipsis; /* Теперь троеточие будет работать всегда */
             cursor: pointer;
+            display: block; /* Обязательно для text-overflow */
+            width: 100%;
         }
 
         /* Всплывающая подсказка (Tooltip) */
@@ -104,13 +110,13 @@
             top: 100%;
             left: 0;
             margin-top: 8px;
-            background: #374151; /* Контрастный серый фон */
+            background: #374151;
             color: #fff;
             padding: 8px 12px;
             border-radius: 8px;
             font-size: 0.85rem;
             font-weight: 500;
-            white-space: normal; /* Разрешаем перенос текста внутри плашки */
+            white-space: normal;
             word-break: break-word;
             box-shadow: 0 5px 15px rgba(0,0,0,0.6);
             opacity: 0;
@@ -118,9 +124,9 @@
             transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
             transform: translateY(-5px);
             z-index: 100;
-            pointer-events: none; /* Чтобы тултип не блокировал клики под собой */
+            pointer-events: none;
             width: max-content;
-            max-width: 250px; /* Ограничитель ширины плашки на мобилках */
+            max-width: calc(100vw - 60px); /* Чтобы плашка не вылезала за экран мобилки */
         }
 
         /* Показ подсказки при наведении (ПК) или тапе (Мобилка) */
@@ -147,7 +153,7 @@
             color: var(--text-main);
             cursor: pointer;
             user-select: none;
-            flex: 0 0 auto;
+            flex: 0 0 auto; /* Жестко фиксируем размер кнопки */
             white-space: nowrap;
         }
 
@@ -339,7 +345,6 @@
                 overflow-x: hidden;
             }
             
-            /* Делаем шрифт заголовка на 4 пункта меньше и прячем суффикс картинок */
             .folder-title {
                 font-size: 0.95rem; 
             }
@@ -358,6 +363,7 @@
                 padding: 16px;
                 gap: 20px;
                 max-width: 100%;
+                width: 100%;
                 box-sizing: border-box;
                 overflow: hidden;
             }
@@ -401,12 +407,6 @@
 
             .thumbnail-label {
                 font-size: 0.75rem;
-            }
-
-            .folder-header {
-                flex-direction: row;
-                justify-content: space-between;
-                align-items: center;
             }
         }
     </style>
@@ -460,10 +460,9 @@
                 const header = document.createElement('div');
                 header.className = 'folder-header';
                 
-                // Создаем обертку для тултипа
                 const titleWrapper = document.createElement('div');
                 titleWrapper.className = 'folder-title-wrapper';
-                titleWrapper.setAttribute('data-full-title', folderTitle); // Передаем полное имя в CSS
+                titleWrapper.setAttribute('data-full-title', folderTitle); 
                 
                 const title = document.createElement('h3');
                 title.className = 'folder-title';
@@ -479,7 +478,6 @@
                 toggleCheckbox.className = 'toggle-checkbox';
                 toggleCheckbox.checked = true;
                 
-                // Сократили текст по твоей просьбе
                 toggleLabel.append(toggleCheckbox, " Compare");
                 
                 header.append(titleWrapper, toggleLabel);
