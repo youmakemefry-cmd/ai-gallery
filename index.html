@@ -79,10 +79,28 @@
             margin: 0;
         }
 
+        /* Умное ограничение заголовка: максимум 2 строки, дальше троеточие */
         .folder-title {
             margin: 0;
             font-size: 1.2rem;
             color: var(--text-muted);
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            word-break: break-word;
+            flex: 1;
+            margin-right: 20px;
+        }
+
+        /* Стили для счетчика изображений на ПК */
+        .image-count {
+            font-size: 1rem;
+            opacity: 0.6;
+            margin-left: 6px;
+            white-space: nowrap;
+            font-weight: normal;
         }
 
         .toggle-label {
@@ -93,6 +111,8 @@
             color: var(--text-main);
             cursor: pointer;
             user-select: none;
+            flex: 0 0 auto; /* Запрещаем кнопке сжиматься или ломаться */
+            white-space: nowrap;
         }
 
         .toggle-checkbox {
@@ -148,7 +168,6 @@
         }
 
         .img-modified {
-            /* Базовое значение переопределяется из JS для рандомизации на ПК */
             clip-path: polygon(50% 0, 100% 0, 100% 100%, 50% 100%);
         }
 
@@ -284,6 +303,11 @@
                 overflow-x: hidden;
             }
             
+            /* Полностью прячем суффикс количества картинок на мобилках */
+            .image-count {
+                display: none;
+            }
+
             .gallery-container {
                 gap: 20px;
                 max-width: 100%;
@@ -373,16 +397,13 @@
                     if (!response.ok) throw new Error('Cannot load gallery.json');
                     const data = await response.json();
                     
-                    // ТОЧЕЧНОЕ ОБНОВЛЕНИЕ 3: Получаем блок кастомных названий полок
                     const customTitles = data._titles || {};
                     
-                    // Исключаем ключ _titles из общего списка папок перед сортировкой
                     const sortedFolders = Object.keys(data)
                         .filter(key => key !== '_titles')
                         .sort((a, b) => parseInt(a) - parseInt(b));
                     
                     for (const folderNum of sortedFolders) {
-                        // Если в JSON есть кастомное имя для этой папки — берем его, иначе пишем дефолтное
                         const currentTitle = customTitles[folderNum] ? customTitles[folderNum] : `Folder #${folderNum}`;
                         createFolderBlock(folderNum, data[folderNum], currentTitle);
                     }
@@ -401,8 +422,8 @@
                 
                 const title = document.createElement('h3');
                 title.className = 'folder-title';
-                // Подставляем сформированное имя полки
-                title.textContent = `${folderTitle} (${images.length} images)`;
+                // Оборачиваем суффикс картинок в отдельный тег span для контроля через CSS
+                title.innerHTML = `${folderTitle} <span class="image-count">(${images.length} images)</span>`;
                 
                 const toggleLabel = document.createElement('label');
                 toggleLabel.className = 'toggle-label';
@@ -412,7 +433,7 @@
                 toggleCheckbox.className = 'toggle-checkbox';
                 toggleCheckbox.checked = true;
                 
-                toggleLabel.append(toggleCheckbox, " Compare Mode");
+                toggleLabel.append(toggleCheckbox, " Compare");
                 header.append(title, toggleLabel);
                 row.appendChild(header);
 
@@ -431,10 +452,8 @@
                 imgOriginal.src = originalSrc;
                 imgModified.src = activeSrc; 
 
-                // ТОЧЕЧНОЕ ОБНОВЛЕНИЕ 1: Рандомные стартовые положения слайдеров на ПК версии
                 let startPos = 50;
                 if (window.innerWidth > 1000) {
-                    // Варианты позиций. Значение 90 добавлено один раз, чтобы выпадать значительно реже остальных
                     const positions = [10, 25, 25, 50, 50, 75, 75, 90];
                     startPos = positions[Math.floor(Math.random() * positions.length)];
                 }
@@ -449,7 +468,6 @@
                 const sliderLine = document.createElement('div');
                 sliderLine.className = 'slider-line';
                 
-                // Принудительно выставляем начальное состояние линии и обрезки на основе рандома
                 sliderLine.style.left = `${startPos}%`;
                 imgModified.style.clipPath = `polygon(${startPos}% 0, 100% 0, 100% 100%, ${startPos}% 100%)`;
 
@@ -504,7 +522,6 @@
                     const badgeText = i === 0 ? "ORIGINAL" : `AI VARIATION ${i}`;
                     const badgeClass = i === 0 ? "badge original" : "badge";
                     
-                    // ТОЧЕЧНОЕ ОБНОВЛЕНИЕ 2: Полностью убрали вывод названия файла из верстки
                     label.innerHTML = `<span class="${badgeClass}">${badgeText}</span>`;
                     
                     const thumbImg = document.createElement('img');
