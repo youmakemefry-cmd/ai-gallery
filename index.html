@@ -79,22 +79,58 @@
             margin: 0;
         }
 
-        /* Умное ограничение заголовка: максимум 2 строки, дальше троеточие */
+        /* --- ОБЕРТКА И СТИЛИ ДЛЯ ЗАГОЛОВКА С ТУЛТИПОМ --- */
+        .folder-title-wrapper {
+            position: relative;
+            flex: 1;
+            min-width: 0; /* Обязательно для работы text-overflow во flex-контейнере */
+            margin-right: 15px;
+        }
+
         .folder-title {
             margin: 0;
             font-size: 1.2rem;
             color: var(--text-muted);
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
+            white-space: nowrap; /* Строго одна строка */
             overflow: hidden;
-            text-overflow: ellipsis;
-            word-break: break-word;
-            flex: 1;
-            margin-right: 20px;
+            text-overflow: ellipsis; /* Троеточие при переполнении */
+            cursor: pointer;
         }
 
-        /* Стили для счетчика изображений на ПК */
+        /* Всплывающая подсказка (Tooltip) */
+        .folder-title-wrapper::after {
+            content: attr(data-full-title);
+            position: absolute;
+            top: 100%;
+            left: 0;
+            margin-top: 8px;
+            background: #374151; /* Контрастный серый фон */
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: normal; /* Разрешаем перенос текста внутри плашки */
+            word-break: break-word;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.2s ease, visibility 0.2s ease, transform 0.2s ease;
+            transform: translateY(-5px);
+            z-index: 100;
+            pointer-events: none; /* Чтобы тултип не блокировал клики под собой */
+            width: max-content;
+            max-width: 250px; /* Ограничитель ширины плашки на мобилках */
+        }
+
+        /* Показ подсказки при наведении (ПК) или тапе (Мобилка) */
+        .folder-title-wrapper:hover::after,
+        .folder-title-wrapper:active::after {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+
         .image-count {
             font-size: 1rem;
             opacity: 0.6;
@@ -111,7 +147,7 @@
             color: var(--text-main);
             cursor: pointer;
             user-select: none;
-            flex: 0 0 auto; /* Запрещаем кнопке сжиматься или ломаться */
+            flex: 0 0 auto;
             white-space: nowrap;
         }
 
@@ -303,7 +339,11 @@
                 overflow-x: hidden;
             }
             
-            /* Полностью прячем суффикс количества картинок на мобилках */
+            /* Делаем шрифт заголовка на 4 пункта меньше и прячем суффикс картинок */
+            .folder-title {
+                font-size: 0.95rem; 
+            }
+            
             .image-count {
                 display: none;
             }
@@ -420,10 +460,16 @@
                 const header = document.createElement('div');
                 header.className = 'folder-header';
                 
+                // Создаем обертку для тултипа
+                const titleWrapper = document.createElement('div');
+                titleWrapper.className = 'folder-title-wrapper';
+                titleWrapper.setAttribute('data-full-title', folderTitle); // Передаем полное имя в CSS
+                
                 const title = document.createElement('h3');
                 title.className = 'folder-title';
-                // Оборачиваем суффикс картинок в отдельный тег span для контроля через CSS
                 title.innerHTML = `${folderTitle} <span class="image-count">(${images.length} images)</span>`;
+                
+                titleWrapper.appendChild(title);
                 
                 const toggleLabel = document.createElement('label');
                 toggleLabel.className = 'toggle-label';
@@ -433,8 +479,10 @@
                 toggleCheckbox.className = 'toggle-checkbox';
                 toggleCheckbox.checked = true;
                 
+                // Сократили текст по твоей просьбе
                 toggleLabel.append(toggleCheckbox, " Compare");
-                header.append(title, toggleLabel);
+                
+                header.append(titleWrapper, toggleLabel);
                 row.appendChild(header);
 
                 const sliderWrapper = document.createElement('div');
