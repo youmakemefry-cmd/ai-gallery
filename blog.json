@@ -1,0 +1,26 @@
+[
+  {
+    "title": "Welcome to NEUROVISTA",
+    "date": "July 12, 2026",
+    "image": "",
+    "content": "This is the launch of my new AI art gallery and blog. The site is fully static and runs on GitHub Pages, utilizing JSON files to act as a lightweight database for both the gallery folders and these blog posts."
+  },
+  {
+    "title": "Exploring Dark Cyberpunk Aesthetics",
+    "date": "July 01 28, 2026",
+    "image": "1/Crisp Realistic Cityscape 8k.jpg",
+    "content": "I've uploaded a new batch of progression images to the gallery focusing on brutalist megastructures and neon-lit environments. The compare tool is especially useful here to see how lighting variations change the whole mood of the scene."
+  },
+  {
+    "title": "UI Update: Glassmorphism and Mobile Fixes",
+    "date": "June 31, 2026",
+    "image": "",
+    "content": "Just pushed a massive update to the repository. The header now features a sticky glass-morphism effect, and the mobile view for the gallery has been completely overhauled to prevent clipping and scrolling issues. Check out the Gallery tab to see the updated Compare toggle!"
+  },
+  {
+    "title": "Future Plans: Integrating Video Prompts",
+    "date": "June 25, 2026",
+    "image": "10/High-Fashion Foggy Dreamscape.jpg",
+    "content": "Looking ahead, I'm researching ways to implement short WebM loop comparisons. While static image generation has reached an incredible level of fidelity, animating these latent spaces opens up a completely new dimension of visual storytelling."
+  }
+]

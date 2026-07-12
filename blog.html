@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | NEUROVISTA</title>
+    <style>
+        :root {
+            --bg-color: #0f0f13;
+            --card-bg: #1a1a21;
+            --accent: #7c3aed;
+            --accent-cyan: #00f0ff;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        /* --- GLASS HEADER --- */
+        .glass-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(26, 26, 33, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            object-fit: cover;
+            background: #2d2d38;
+        }
+
+        .nav-brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+        }
+        .nav-brand .neuro { color: var(--accent-cyan); }
+        .nav-brand .vista { color: var(--accent); }
+
+        .header-nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        .header-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .header-nav a:hover, .header-nav a.active {
+            color: var(--text-main);
+        }
+
+        .header-nav a.active {
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 4px;
+        }
+
+        /* --- BLOG CONTENT --- */
+        .blog-container {
+            flex: 1;
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 0 20px;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .blog-card {
+            background-color: var(--card-bg);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .blog-card h2 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: var(--text-main);
+            font-size: 1.5rem;
+        }
+
+        .blog-date {
+            color: var(--accent);
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            display: block;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .blog-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            background: #000;
+        }
+
+        .blog-text {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 1rem;
+            margin: 0;
+        }
+
+        .loading-text {
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 1.2rem;
+            padding: 40px;
+        }
+
+        /* --- FOOTER --- */
+        .site-footer {
+            background: #121216;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 30px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 40px;
+        }
+        .site-footer a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+        .site-footer a:hover {
+            color: var(--accent-cyan);
+        }
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        /* --- АДАПТИВНОСТЬ --- */
+        @media (max-width: 1000px) {
+            .glass-header { padding: 12px 15px; }
+            .nav-brand { font-size: 1.1rem; }
+            .header-nav { gap: 15px; }
+            .blog-container { margin-top: 20px; gap: 20px; }
+            .blog-card { padding: 20px; }
+            .blog-card h2 { font-size: 1.3rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="glass-header">
+        <a href="index.html" class="header-left">
+            <img src="logo.png" alt="Logo" class="nav-icon" onerror="this.style.display='none'"> 
+            <div class="nav-brand">
+                <span class="neuro">NEURO</span><span class="vista">VISTA</span>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="index.html">Gallery</a>
+            <a href="blog.html" class="active">Blog</a>
+            <a href="contacts.html">Contacts</a>
+        </nav>
+    </header>
+
+    <main class="blog-container" id="blog-container">
+        <div class="loading-text">Loading posts...</div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <span>&copy; 2026 Sergei N</span>
+            <span>|</span>
+            <span><a href="mailto:esw1337@gmail.com">esw1337@gmail.com</a></span>
+            <span>|</span>
+            <span><a href="https://github.com/youmakemefry-cmd" target="_blank">GitHub</a></span>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById('blog-container');
+
+            async function loadBlogPosts() {
+                try {
+                    const response = await fetch('./blog.json');
+                    if (!response.ok) throw new Error('Cannot load blog.json');
+                    
+                    const posts = await response.json();
+                    container.innerHTML = ''; // Очищаем текст загрузки
+
+                    if (posts.length === 0) {
+                        container.innerHTML = '<div class="loading-text">No posts found.</div>';
+                        return;
+                    }
+
+                    posts.forEach(post => {
+                        const article = document.createElement('article');
+                        article.className = 'blog-card';
+
+                        // Заголовок
+                        const title = document.createElement('h2');
+                        title.textContent = post.title;
+
+                        // Дата
+                        const date = document.createElement('span');
+                        date.className = 'blog-date';
+                        date.textContent = post.date;
+
+                        article.appendChild(title);
+                        article.appendChild(date);
+
+                        // Изображение (если указано в JSON)
+                        if (post.image && post.image.trim() !== '') {
+                            const img = document.createElement('img');
+                            img.className = 'blog-image';
+                            img.src = post.image;
+                            img.alt = post.title;
+                            // Скрываем если картинка сломана/не найдена
+                            img.onerror = () => img.style.display = 'none'; 
+                            article.appendChild(img);
+                        }
+
+                        // Текст поста
+                        const text = document.createElement('p');
+                        text.className = 'blog-text';
+                        text.innerHTML = post.content; // Позволяет использовать <br> для переносов
+
+                        article.appendChild(text);
+                        container.appendChild(article);
+                    });
+
+                } catch (error) {
+                    console.error("Error loading blog:", error);
+                    container.innerHTML = '<div class="loading-text">Error loading blog posts. Did you create blog.json?</div>';
+                }
+            }
+
+            loadBlogPosts();
+        });
+    </script>
+</body>
+</html>
