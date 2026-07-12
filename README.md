@@ -1,19 +1,22 @@
-# AI Progression Gallery Engine
+# NeuroVista Gallery Engine
 <a href="https://github.com/user-attachments/assets/cb032e0b-0f26-4be3-b993-2939928c39e3" target="_blank">
   <img src="https://github.com/user-attachments/assets/cb032e0b-0f26-4be3-b993-2939928c39e3" alt="Gallery Preview" width="50%" />
 </a>
 
-A lightweight, dark-themed portfolio engine designed to showcase iterative AI generation work. Instead of just showing static results, this engine highlights the "progression"—allowing viewers to compare the original output with various AI variations using an interactive before/after slider.
+A lightweight, zero-dependency, static-site gallery engine designed for AI artists, photographers, and creatives. Showcase your "Original vs. Variation" workflows with an interactive, glass-morphism inspired interface.
 
 ## Why this engine?
 I built this because existing portfolio templates often lack a way to display non-linear AI generation processes. This engine automates the gallery creation process so you can focus on your art, not on manual HTML coding.
 
 ## Key Features
-*   **Interactive Comparison:** Built-in before/after slider for side-by-side analysis.
-*   **Progression-First UI:** Supports infinite variations per folder.
-*   **Automated Indexing:** No need to manually update HTML when you add new projects.
-*   **Mobile Responsive:** Fully adaptive design for phone and desktop viewing.
-*   **Dark Mode:** Aesthetic, developer-friendly dark theme.
+* **Interactive Comparison:** Built-in before/after slider for side-by-side analysis.
+* **Progression-First UI:** Supports infinite variations per folder.
+* **Automated Indexing:** No need to manually update HTML when you add new projects.
+* **Lightbox Preview:** Built-in full-screen viewing mode with support for intuitive navigation and metadata display.
+* **Glassmorphism UI:** Modern, clean aesthetic with blur-effects, dark theme, and high-quality responsiveness.
+* **Mobile-First Design:** Fully adaptive layout that feels natural on both desktop and mobile devices.
+* **Dark Mode:** Aesthetic, developer-friendly dark theme.
+* **Zero Dependencies:** Pure HTML5, CSS3, and Vanilla JavaScript. Extremely fast and easy to deploy on GitHub Pages or any static host.
 
 ## Getting Started
 
@@ -53,3 +56,17 @@ Compare Mode: Users can toggle "Compare Mode" to switch between a standard galle
 Styling: The engine is self-contained in index.html. You can easily tweak the CSS variables at the top of the file to match your brand colors.
 
 Built for artists and developers. Feel free to fork and use this engine for your own AI portfolio.
+
+## 📝 Blog Integration
+
+NeuroVista also includes a dedicated **JSON-based blogging system**. You can maintain your project updates by simply editing a `blog.json` file—perfect for adding devlogs, creative process notes, or news updates without touching the HTML.
+
+## 💻 Tech Stack
+
+* **HTML5/CSS3:** Modern grid-based layout with glass-morphism.
+* **Vanilla JS:** Efficient DOM manipulation, touch events for mobile swiping, and asynchronous data fetching.
+* **Python:** A helper script to automate gallery indexing.
+
+---
+
+*Built with passion for the AI art community.*
