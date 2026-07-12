@@ -142,32 +142,35 @@
         .site-footer {
             background: #121216;
             border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 30px 20px;
+            padding: 25px 15px;
             text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
-        }
-        .site-footer a {
-            color: var(--accent);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .site-footer a:hover {
-            color: var(--accent-cyan);
+            margin-top: 40px;
         }
         .footer-content {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px; /* Уменьшили отступ для мобилок */
         }
-
-        /* --- АДАПТИВНОСТЬ --- */
-        @media (max-width: 1000px) {
-            .glass-header { padding: 12px 15px; }
-            .nav-brand { font-size: 1.1rem; }
-            .header-nav { gap: 15px; }
-            .contact-card { padding: 30px 20px; }
+        .footer-content span.copyright {
+            white-space: nowrap;
+        }
+        .footer-icon {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .footer-icon:hover {
+            color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+        .footer-separator {
+            color: #374151;
+            font-size: 1.1rem;
         }
     </style>
 </head>
@@ -210,12 +213,15 @@
 
     <footer class="site-footer">
         <div class="footer-content">
-            <span>&copy; 2026 Sergey N.</span>
-            <span>|</span>
-            <span><a href="mailto:esw1337@gmail.com">esw1337@gmail.com</a></span>
-            <span>|</span>
-            <span><a href="https://github.com/youmakemefry-cmd" target="_blank">GitHub</a></span>
-            
+            <span class="copyright">&copy; 2026 Sergei N</span>
+            <span class="footer-separator">|</span>
+            <a href="mailto:esw1337@gmail.com" class="footer-icon" title="Email me">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <span class="footer-separator">|</span>
+            <a href="https://github.com/youmakemefry-cmd" target="_blank" class="footer-icon" title="GitHub">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
         </div>
     </footer>
 

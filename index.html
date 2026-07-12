@@ -16,7 +16,7 @@
 
         body {
             margin: 0;
-            padding: 0; /* Убрали паддинг для прилипающей шапки */
+            padding: 0; 
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
@@ -47,16 +47,14 @@
             text-decoration: none;
         }
 
-        /* Заглушка для иконки 64x64px */
         .nav-icon {
             width: 32px;
             height: 32px;
-            border-radius: 8px; /* Скругленный квадрат */
+            border-radius: 8px; 
             object-fit: cover;
-            background: #2d2d38; /* Фон пока нет картинки */
+            background: #2d2d38; 
         }
 
-        /* Текстовый логотип */
         .nav-brand {
             font-size: 1.4rem;
             font-weight: 800;
@@ -96,12 +94,12 @@
             max-width: 1600px;
             margin: 40px auto;
             padding: 0 20px;
-            flex: 1; /* Чтобы подвал всегда был внизу */
+            flex: 1; 
             width: 100%;
             box-sizing: border-box;
         }
 
-        /* --- ЛАЙТБОКС С НАВИГАЦИЕЙ --- */
+        /* --- ЛАЙТБОКС С НАВИГАЦИЕЙ И ИНФОБЛОКОМ --- */
         .lightbox {
             display: none;
             position: fixed;
@@ -116,9 +114,34 @@
             user-select: none;
         }
         
+        /* Блок с названием полки и файла */
+        .lb-info {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            text-align: center;
+            z-index: 10002;
+            width: 90%;
+            pointer-events: none; /* Чтобы не мешал кликам */
+            text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .lb-title-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .lb-filename-text {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
         .lightbox img {
             max-width: 90%;
-            max-height: 90%;
+            max-height: 80%; /* Чуть уменьшили чтобы текст сверху не перекрывал фото на узких экранах */
             object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 0 30px rgba(0,0,0,0.6);
@@ -134,7 +157,7 @@
             cursor: pointer;
             opacity: 0.6;
             transition: opacity 0.2s;
-            z-index: 10001;
+            z-index: 10003;
         }
         .lb-close:hover { opacity: 1; }
 
@@ -389,6 +412,7 @@
             flex: 1 1 0;
             min-height: 110px; 
             box-sizing: border-box;
+            position: relative; /* Обязательно для иконки лупы внутри */
         }
 
         .thumbnail-card:hover {
@@ -408,6 +432,28 @@
             object-fit: cover;
             border-radius: 4px;
             min-height: 0; 
+        }
+
+        /* Иконка лупы */
+        .zoom-hint {
+            position: absolute;
+            bottom: 16px;
+            right: 16px;
+            background: rgba(0, 0, 0, 0.65);
+            border-radius: 6px;
+            width: 24px;
+            height: 24px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            pointer-events: none;
+            opacity: 0.8;
+            backdrop-filter: blur(2px);
+            transition: opacity 0.2s;
+        }
+        .thumbnail-card:hover .zoom-hint {
+            opacity: 1;
         }
 
         .thumbnail-label {
@@ -435,25 +481,35 @@
         .site-footer {
             background: #121216;
             border-top: 1px solid rgba(255,255,255,0.05);
-            padding: 30px 20px;
+            padding: 25px 15px;
             text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
             margin-top: 40px;
         }
-        .site-footer a {
-            color: var(--accent);
-            text-decoration: none;
-            transition: color 0.2s;
-        }
-        .site-footer a:hover {
-            color: var(--accent-cyan);
-        }
         .footer-content {
             display: flex;
             justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
+            align-items: center;
+            gap: 15px; /* Компактные отступы */
+        }
+        .footer-content span.copyright {
+            white-space: nowrap;
+        }
+        .footer-icon {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: color 0.2s, transform 0.2s;
+        }
+        .footer-icon:hover {
+            color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+        .footer-separator {
+            color: #374151;
+            font-size: 1.1rem;
         }
 
         /* --- АДАПТИВНОСТЬ МОБИЛЬНЫХ --- */
@@ -503,10 +559,19 @@
                 padding: 8px;
             }
             .thumbnail-card img { width: 100%; height: 75px; flex: none; }
+            
+            /* Смещаем лупу на мобилке, т.к. пропорции карточки другие */
+            .zoom-hint { bottom: 12px; right: 12px; width: 20px; height: 20px; }
+            .zoom-hint svg { width: 12px; height: 12px; }
+
             .thumbnail-label { font-size: 0.75rem; }
             
             /* Скрываем стрелочки на мобилках (оставляем только свайп) */
             .lb-nav { display: none; }
+            .lb-close { top: 15px; right: 20px; font-size: 35px; }
+            .lb-info { top: 15px; }
+            .lb-title-text { font-size: 1rem; }
+            .lb-filename-text { font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -527,6 +592,11 @@
     </header>
 
     <div class="lightbox" id="lightbox">
+        <div class="lb-info">
+            <div class="lb-title-text" id="lb-title"></div>
+            <div class="lb-filename-text" id="lb-filename"></div>
+        </div>
+        
         <div class="lb-close" id="lb-close">&times;</div>
         <div class="lb-nav lb-prev" id="lb-prev">&lsaquo;</div>
         <img id="lightbox-img" src="" alt="Full size view">
@@ -537,11 +607,15 @@
 
     <footer class="site-footer">
         <div class="footer-content">
-            <span>&copy; 2026 Sergey N.</span>
-            <span>|</span>
-            <span><a href="mailto:esw1337@gmail.com">esw1337@gmail.com</a></span>
-            <span>|</span>
-            <span><a href="https://github.com/youmakemefry-cmd" target="_blank">GitHub</a></span>
+            <span class="copyright">&copy; 2026 Sergei N</span>
+            <span class="footer-separator">|</span>
+            <a href="mailto:esw1337@gmail.com" class="footer-icon" title="Email me">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <span class="footer-separator">|</span>
+            <a href="https://github.com/youmakemefry-cmd" target="_blank" class="footer-icon" title="GitHub">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
         </div>
     </footer>
 
@@ -550,22 +624,29 @@
             const gallery = document.getElementById('gallery');
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
+            const lbTitle = document.getElementById('lb-title');
+            const lbFilename = document.getElementById('lb-filename');
             
-            // --- Глобальный массив для сквозного свайпа ---
+            // --- Глобальный массив теперь хранит ОБЪЕКТЫ с метадатой ---
             let globalImages = [];
             let currentLbIndex = -1;
 
-            // Навигация лайтбокса
             function openLightbox(src) {
-                currentLbIndex = globalImages.indexOf(src);
-                if (currentLbIndex === -1) currentLbIndex = 0; // Фолбек
+                // Ищем индекс по ссылке на фото
+                currentLbIndex = globalImages.findIndex(img => img.src === src);
+                if (currentLbIndex === -1) currentLbIndex = 0; 
                 updateLightboxImage();
                 lightbox.style.display = 'flex';
             }
 
             function updateLightboxImage() {
                 if (currentLbIndex >= 0 && currentLbIndex < globalImages.length) {
-                    lightboxImg.src = globalImages[currentLbIndex];
+                    const currentImg = globalImages[currentLbIndex];
+                    lightboxImg.src = currentImg.src;
+                    
+                    // Обновляем текст инфоблока
+                    lbTitle.textContent = currentImg.folderTitle;
+                    lbFilename.textContent = currentImg.fileName;
                 }
             }
 
@@ -583,17 +664,14 @@
                 }
             }
 
-            // Управление лайтбоксом (Клики)
             document.getElementById('lb-close').addEventListener('click', () => lightbox.style.display = 'none');
             document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
             document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
             
-            // Клик по фону закрывает (но не по картинке)
             lightbox.addEventListener('click', (e) => {
                 if (e.target === lightbox) lightbox.style.display = 'none';
             });
 
-            // Управление лайтбоксом (Клавиатура)
             document.addEventListener('keydown', (e) => {
                 if (lightbox.style.display === 'flex') {
                     if (e.key === 'Escape') lightbox.style.display = 'none';
@@ -602,7 +680,6 @@
                 }
             });
 
-            // Управление лайтбоксом (Свайпы)
             let touchStartX = 0;
             let touchEndX = 0;
             lightbox.addEventListener('touchstart', e => {
@@ -613,11 +690,10 @@
                 handleSwipe();
             });
             function handleSwipe() {
-                const threshold = 50; // Минимальная длина свайпа
+                const threshold = 50; 
                 if (touchEndX < touchStartX - threshold) nextImage();
                 if (touchEndX > touchStartX + threshold) prevImage();
             }
-
 
             async function loadAllFolders() {
                 try {
@@ -634,9 +710,13 @@
                     for (const folderNum of sortedFolders) {
                         const currentTitle = customTitles[folderNum] ? customTitles[folderNum] : `Folder #${folderNum}`;
                         
-                        // Заполняем глобальный массив для свайпов (сохраняем порядок)
+                        // Заполняем массив объектами
                         data[folderNum].forEach(img => {
-                            globalImages.push(`${folderNum}/${img}`);
+                            globalImages.push({
+                                src: `${folderNum}/${img}`,
+                                folderTitle: currentTitle,
+                                fileName: img
+                            });
                         });
 
                         createFolderBlock(folderNum, data[folderNum], currentTitle);
@@ -767,7 +847,12 @@
                     const imgPath = `${folderNum}/${images[i]}`;
                     thumbImg.src = imgPath;
                     
-                    thumbCard.append(label, thumbImg);
+                    // --- СОЗДАЕМ ИКОНКУ ЛУПЫ ---
+                    const zoomHint = document.createElement('div');
+                    zoomHint.className = 'zoom-hint';
+                    zoomHint.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`;
+
+                    thumbCard.append(label, thumbImg, zoomHint);
                     thumbContainer.appendChild(thumbCard);
 
                     thumbCard.addEventListener('click', () => {
@@ -776,7 +861,6 @@
                             return;
                         }
                         
-                        // ЛОГИКА ОТКЛЮЧЕНИЯ COMPARE: Если тапнули по Оригиналу
                         if (i === 0) {
                             toggleCheckbox.checked = false;
                         }
