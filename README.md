@@ -1,11 +1,19 @@
-# DualVisor Gallery Engine
+# 👁️ DualVisor AI Gallery Enhanced
 <img width="1536" height="1024" alt="DUALVISOR" src="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" />
 
+Welcome to **DualVisor**, a clean, modern, and highly interactive web gallery designed specifically for digital artists, AI creators, and designers. 
 
-A lightweight, zero-dependency, static-site gallery engine designed for AI artists, photographers, and creatives. Showcase your "Original vs. Variation" workflows with an interactive, glass-morphism inspired interface.
+Whether you are working with AI image generation, photo restoration, or digital retouching, DualVisor gives you the perfect stage to showcase your work. It focuses entirely on what matters most: your images and the creative process behind them.
 
-## Why this engine?
-I built this because existing portfolio templates often lack a way to display non-linear AI generation processes. This engine automates the gallery creation process so you can focus on your art, not on manual HTML coding.
+---
+
+## ✨ What Makes It Special?
+
+* **Interactive Slide-to-Compare:** Let your audience experience the transformation. With our smooth, touch-friendly split-screen slider, anyone can easily slide back and forth to see the exact changes between your original image and the enhanced AI version.
+* **Smart Folder Organization:** No more messy grids. DualVisor automatically organizes your artwork into beautiful, structured folders. It makes browsing through large collections of various concepts feel effortless and neat.
+* **Adaptive & Responsive Layouts:** Designed to look stunning on any screen. Whether your viewers are on a massive 4K desktop monitor or browsing on their mobile phones, the gallery dynamically adjusts to keep your images perfectly framed without awkward cropping.
+* **Built-in Blog & Contact Hub:** Share the stories behind your creations. DualVisor includes a beautifully integrated blog to publish your thoughts, updates, or prompt guides, alongside a simple contact page to help you connect with your audience and clients.
+* **Aesthetics First:** Inspired by modern dark-mode interfaces, the gallery uses subtle neon accents and smooth animations that make the entire experience feel premium, immersive, and incredibly satisfying to interact with.
 
 ## Key Features
 * **Interactive Comparison:** Built-in before/after slider for side-by-side analysis.
