@@ -27,14 +27,14 @@ Whether you are working with AI image generation, photo restoration, or digital 
 * **Dark Mode:** Aesthetic, developer-friendly dark theme.
 * **Zero Dependencies:** Pure HTML5, CSS3, and Vanilla JavaScript. Extremely fast and easy to deploy on GitHub Pages or any static host.
 
-<div style="display: flex; gap: 10px;">
-  <a href="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" target="_blank" style="flex: 1;">
-    <img src="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" alt="Gallery Preview 1" style="width: 100%;" />
+<p align="center">
+  <a href="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" target="_blank">
+    <img src="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" alt="Gallery Preview 1" width="48%" />
   </a>
-  <a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank" style="flex: 1;">
-    <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview 2" style="width: 100%;" />
+  <a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank">
+    <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview 2" width="48%" />
   </a>
-</div>
+</p>
 
 ## Getting Started
 
