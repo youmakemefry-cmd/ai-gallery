@@ -5,6 +5,319 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEUROVISTA Gallery</title>
     <style>
+        /* ==========================================================================
+           NORMALIZE.CSS (v8.0.1) - Обеспечивает кроссбраузерную консистентность
+           ========================================================================== */
+        
+        /**
+         * 1. Correct the line height in all browsers.
+         * 2. Prevent adjustments of font size after orientation changes in iOS.
+         */
+        html {
+          line-height: 1.15; /* 1 */
+          -webkit-text-size-adjust: 100%; /* 2 */
+        }
+        
+        /**
+         * Remove the margin in all browsers.
+         */
+        body {
+          margin: 0;
+        }
+        
+        /**
+         * Render the `main` element consistently in IE.
+         */
+        main {
+          display: block;
+        }
+        
+        /**
+         * Correct the font size and margin on `h1` elements within `section` and
+         * `article` contexts in Chrome, Firefox, and Safari.
+         */
+        h1 {
+          font-size: 2em;
+          margin: 0.67em 0;
+        }
+        
+        /* Grouping content
+           ========================================================================== */
+        
+        /**
+         * 1. Add the correct box sizing in Firefox.
+         * 2. Show the overflow in Edge and IE.
+         */
+        hr {
+          box-sizing: content-box; /* 1 */
+          height: 0; /* 1 */
+          overflow: visible; /* 2 */
+        }
+        
+        /**
+         * 1. Correct the inheritance and scaling of font size in all browsers.
+         * 2. Correct the odd `em` font sizing in all browsers.
+         */
+        pre {
+          font-family: monospace, monospace; /* 1 */
+          font-size: 1em; /* 2 */
+        }
+        
+        /* Text-level semantics
+           ========================================================================== */
+        
+        /**
+         * Remove the gray background on active links in IE 10.
+         */
+        a {
+          background-color: transparent;
+        }
+        
+        /**
+         * 1. Remove the bottom border in Chrome 57-
+         * 2. Add the correct text decoration in Chrome, Edge, IE, Opera, and Safari.
+         */
+        abbr[title] {
+          border-bottom: none; /* 1 */
+          text-decoration: underline; /* 2 */
+          text-decoration: underline dotted; /* 2 */
+        }
+        
+        /**
+         * Add the correct font weight in Chrome, Edge, and Safari.
+         */
+        b,
+        strong {
+          font-weight: bolder;
+        }
+        
+        /**
+         * 1. Correct the inheritance and scaling of font size in all browsers.
+         * 2. Correct the odd `em` font sizing in all browsers.
+         */
+        code,
+        kbd,
+        samp {
+          font-family: monospace, monospace; /* 1 */
+          font-size: 1em; /* 2 */
+        }
+        
+        /**
+         * Add the correct font size in all browsers.
+         */
+        small {
+          font-size: 80%;
+        }
+        
+        /**
+         * Prevent `sub` and `sup` elements from affecting the line height in
+         * all browsers.
+         */
+        sub,
+        sup {
+          font-size: 75%;
+          line-height: 0;
+          position: relative;
+          vertical-align: baseline;
+        }
+        
+        sub {
+          bottom: -0.25em;
+        }
+        
+        sup {
+          top: -0.5em;
+        }
+        
+        /* Embedded content
+           ========================================================================== */
+        
+        /**
+         * Remove the border on images inside links in IE 10.
+         */
+        img {
+          border-style: none;
+        }
+        
+        /* Forms
+           ========================================================================== */
+        
+        /**
+         * 1. Change the font styles in all browsers.
+         * 2. Remove the margin in Firefox and Safari.
+         */
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+          font-family: inherit; /* 1 */
+          font-size: 100%; /* 1 */
+          line-height: 1.15; /* 1 */
+          margin: 0; /* 2 */
+        }
+        
+        /**
+         * Show the overflow in IE.
+         * 1. Show the overflow in Edge.
+         */
+        button,
+        input { /* 1 */
+          overflow: visible;
+        }
+        
+        /**
+         * Remove the inheritance of text transform in Edge, Firefox, and IE.
+         * 1. Remove the inheritance of text transform in Firefox.
+         */
+        button,
+        select { /* 1 */
+          text-transform: none;
+        }
+        
+        /**
+         * Correct the inability to style clickable types in iOS and Safari.
+         */
+        button,
+        [type="button"],
+        [type="reset"],
+        [type="submit"] {
+          -webkit-appearance: button;
+        }
+        
+        /**
+         * Remove the inner border and padding in Firefox.
+         */
+        button::-moz-focus-inner,
+        [type="button"]::-moz-focus-inner,
+        [type="reset"]::-moz-focus-inner,
+        [type="submit"]::-moz-focus-inner {
+          border-style: none;
+          padding: 0;
+        }
+        
+        /**
+         * Restore the focus styles unset by the previous rule.
+         */
+        button:-moz-focusring,
+        [type="button"]:-moz-focusring,
+        [type="reset"]:-moz-focusring,
+        [type="submit"]:-moz-focusring {
+          outline: 1px dotted ButtonText;
+        }
+        
+        /**
+         * Correct the padding in Firefox.
+         */
+        fieldset {
+          padding: 0.35em 0.75em 0.625em;
+        }
+        
+        /**
+         * 1. Correct the text wrapping in Edge and IE.
+         * 2. Correct the color inheritance from `fieldset` elements in IE.
+         * 3. Remove the padding so developers are not caught out when they zero out
+         *    `fieldset` elements in all browsers.
+         */
+        legend {
+          box-sizing: border-box; /* 1 */
+          color: inherit; /* 2 */
+          display: table; /* 1 */
+          max-width: 100%; /* 1 */
+          padding: 0; /* 3 */
+          white-space: normal; /* 1 */
+        }
+        
+        /**
+         * Add the correct vertical alignment in Chrome, Firefox, and Opera.
+         */
+        progress {
+          vertical-align: baseline;
+        }
+        
+        /**
+         * Remove the default vertical scrollbar in IE 10+.
+         */
+        textarea {
+          overflow: auto;
+        }
+        
+        /**
+         * 1. Add the correct box sizing in IE 10.
+         * 2. Remove the padding in IE 10.
+         */
+        [type="checkbox"],
+        [type="radio"] {
+          box-sizing: border-box; /* 1 */
+          padding: 0; /* 2 */
+        }
+        
+        /**
+         * Correct the cursor style of increment and decrement buttons in Chrome.
+         */
+        [type="number"]::-webkit-inner-spin-button,
+        [type="number"]::-webkit-outer-spin-button {
+          height: auto;
+        }
+        
+        /**
+         * 1. Correct the odd appearance in Chrome and Safari.
+         * 2. Correct the outline style in Safari.
+         */
+        [type="search"] {
+          -webkit-appearance: textfield; /* 1 */
+          outline-offset: -2px; /* 2 */
+        }
+        
+        /**
+         * Remove the inner padding in Chrome and Safari on macOS.
+         */
+        [type="search"]::-webkit-search-decoration {
+          -webkit-appearance: none;
+        }
+        
+        /**
+         * 1. Correct the inability to style clickable types in iOS and Safari.
+         * 2. Change font properties to `inherit` in Safari.
+         */
+        ::-webkit-file-upload-button {
+          -webkit-appearance: button; /* 1 */
+          font: inherit; /* 2 */
+        }
+        
+        /* Interactive
+           ========================================================================== */
+        
+        /* Add the correct display in Edge, IE 10+, and Firefox. */
+        details {
+          display: block;
+        }
+        
+        /* Add the correct display in all browsers. */
+        summary {
+          display: list-item;
+        }
+        
+        /* Misc
+           ========================================================================== */
+        
+        /**
+         * Add the correct display in IE 10+.
+         */
+        template {
+          display: none;
+        }
+        
+        /**
+         * Add the correct display in IE 10.
+         */
+        [hidden] {
+          display: none;
+        }
+
+        /* ==========================================================================
+           ПЕРЕМЕННЫЕ И ОСНОВНОЙ КАРКАС САЙТА
+           ========================================================================== */
         :root {
             --bg-color: #0f0f13;
             --card-bg: #1a1a21;
@@ -25,7 +338,9 @@
             min-height: 100vh;
         }
 
-        /* --- GLASS HEADER --- */
+        /* ==========================================================================
+           GLASS HEADER (Шапка сайта)
+           ========================================================================== */
         .glass-header {
             position: sticky;
             top: 0;
@@ -86,7 +401,9 @@
             padding-bottom: 4px;
         }
 
-        /* --- ОСНОВНОЙ КОНТЕЙНЕР ГАЛЕРЕИ --- */
+        /* ==========================================================================
+           ОСНОВНОЙ КОНТЕЙНЕР ГАЛЕРЕИ И СЕТКА
+           ========================================================================== */
         .gallery-container {
             display: flex;
             flex-direction: column;
@@ -99,7 +416,9 @@
             box-sizing: border-box;
         }
 
-        /* --- ЛАЙТБОКС С НАВИГАЦИЕЙ И ИНФОБЛОКОМ --- */
+        /* ==========================================================================
+           LIGHTBOX (Режим полноэкранного просмотра)
+           ========================================================================== */
         .lightbox {
             display: none;
             position: fixed;
@@ -114,7 +433,6 @@
             user-select: none;
         }
         
-        /* Блок с названием полки и файла */
         .lb-info {
             position: absolute;
             top: 20px;
@@ -123,7 +441,7 @@
             text-align: center;
             z-index: 10002;
             width: 90%;
-            pointer-events: none; /* Чтобы не мешал кликам */
+            pointer-events: none;
             text-shadow: 0 2px 10px rgba(0,0,0,0.8);
         }
 
@@ -141,7 +459,7 @@
 
         .lightbox img {
             max-width: 90%;
-            max-height: 80%; /* Чуть уменьшили чтобы текст сверху не перекрывал фото на узких экранах */
+            max-height: 80%;
             object-fit: contain;
             border-radius: 8px;
             box-shadow: 0 0 30px rgba(0,0,0,0.6);
@@ -177,7 +495,9 @@
         .lb-prev { left: 10px; }
         .lb-next { right: 10px; }
 
-        /* --- КОМПОНЕНТЫ ПОЛОК --- */
+        /* ==========================================================================
+           КОМПОНЕНТЫ ПОЛОК (Folders)
+           ========================================================================== */
         .folder-row {
             background-color: var(--card-bg);
             border-radius: 16px;
@@ -262,6 +582,9 @@
             font-weight: normal;
         }
 
+        /* ==========================================================================
+           КНОПКА COMPARE (Тумблер)
+           ========================================================================== */
         .toggle-label {
             display: flex;
             align-items: center;
@@ -305,6 +628,9 @@
             transform: translateX(18px);
         }
 
+        /* ==========================================================================
+           ГЛАВНОЕ ОКНО ПРЕДПРОСМОТРА И СЛАЙДЕР СРАВНЕНИЯ
+           ========================================================================== */
         .slider-wrapper {
             position: relative;
             width: 100%;
@@ -365,6 +691,9 @@
             border-radius: 50%;
         }
 
+        /* ==========================================================================
+           МИНИАТЮРЫ (Thumbnails)
+           ========================================================================== */
         .thumbnails-wrapper {
             position: relative;
             min-height: 100%;
@@ -412,7 +741,7 @@
             flex: 1 1 0;
             min-height: 110px; 
             box-sizing: border-box;
-            position: relative; /* Обязательно для иконки лупы внутри */
+            position: relative;
         }
 
         .thumbnail-card:hover {
@@ -434,7 +763,6 @@
             min-height: 0; 
         }
 
-        /* Иконка лупы */
         .zoom-hint {
             position: absolute;
             bottom: 16px;
@@ -452,6 +780,7 @@
             backdrop-filter: blur(2px);
             transition: opacity 0.2s;
         }
+        
         .thumbnail-card:hover .zoom-hint {
             opacity: 1;
         }
@@ -477,7 +806,9 @@
             background: #374151;
         }
 
-        /* --- FOOTER --- */
+        /* ==========================================================================
+           FOOTER (Подвал сайта)
+           ========================================================================== */
         .site-footer {
             background: #121216;
             border-top: 1px solid rgba(255,255,255,0.05);
@@ -487,15 +818,18 @@
             font-size: 0.9rem;
             margin-top: 40px;
         }
+        
         .footer-content {
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 15px; /* Компактные отступы */
+            gap: 15px;
         }
+        
         .footer-content span.copyright {
             white-space: nowrap;
         }
+        
         .footer-icon {
             color: var(--text-muted);
             display: flex;
@@ -503,16 +837,20 @@
             justify-content: center;
             transition: color 0.2s, transform 0.2s;
         }
+        
         .footer-icon:hover {
             color: var(--accent-cyan);
             transform: translateY(-2px);
         }
+        
         .footer-separator {
             color: #374151;
             font-size: 1.1rem;
         }
 
-        /* --- АДАПТИВНОСТЬ МОБИЛЬНЫХ --- */
+        /* ==========================================================================
+           МЕДИАЗАПРОСЫ (Адаптивность для мобильных устройств)
+           ========================================================================== */
         @media (max-width: 1000px) {
             .glass-header {
                 padding: 12px 15px;
@@ -560,13 +898,11 @@
             }
             .thumbnail-card img { width: 100%; height: 75px; flex: none; }
             
-            /* Смещаем лупу на мобилке, т.к. пропорции карточки другие */
             .zoom-hint { bottom: 12px; right: 12px; width: 20px; height: 20px; }
             .zoom-hint svg { width: 12px; height: 12px; }
 
             .thumbnail-label { font-size: 0.75rem; }
             
-            /* Скрываем стрелочки на мобилках (оставляем только свайп) */
             .lb-nav { display: none; }
             .lb-close { top: 15px; right: 20px; font-size: 35px; }
             .lb-info { top: 15px; }
@@ -577,6 +913,7 @@
 </head>
 <body>
 
+    <!-- Шапка сайта -->
     <header class="glass-header">
         <a href="index.html" class="header-left">
             <img src="logo.png" alt="Logo" class="nav-icon" onerror="this.style.display='none'"> 
@@ -591,6 +928,7 @@
         </nav>
     </header>
 
+    <!-- Полноэкранный просмотр (Lightbox) -->
     <div class="lightbox" id="lightbox">
         <div class="lb-info">
             <div class="lb-title-text" id="lb-title"></div>
@@ -603,8 +941,10 @@
         <div class="lb-nav lb-next" id="lb-next">&rsaquo;</div>
     </div>
 
+    <!-- Основной контейнер галереи -->
     <main class="gallery-container" id="gallery"></main>
 
+    <!-- Подвал сайта -->
     <footer class="site-footer">
         <div class="footer-content">
             <span class="copyright">&copy; 2026 Sergei N.</span>
@@ -619,6 +959,7 @@
         </div>
     </footer>
 
+    <!-- Основной скрипт логики галереи -->
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const gallery = document.getElementById('gallery');
@@ -627,29 +968,37 @@
             const lbTitle = document.getElementById('lb-title');
             const lbFilename = document.getElementById('lb-filename');
             
-            // --- Глобальный массив теперь хранит ОБЪЕКТЫ с метадатой ---
+            // Глобальный массив хранит ОБЪЕКТЫ с метадатой для навигации
             let globalImages = [];
             let currentLbIndex = -1;
 
+            /**
+             * Открывает Lightbox и находит индекс переданного изображения
+             * @param {string} src - Путь к изображению
+             */
             function openLightbox(src) {
-                // Ищем индекс по ссылке на фото
                 currentLbIndex = globalImages.findIndex(img => img.src === src);
                 if (currentLbIndex === -1) currentLbIndex = 0; 
                 updateLightboxImage();
                 lightbox.style.display = 'flex';
             }
 
+            /**
+             * Обновляет картинку и текст внутри открытого Lightbox
+             */
             function updateLightboxImage() {
                 if (currentLbIndex >= 0 && currentLbIndex < globalImages.length) {
                     const currentImg = globalImages[currentLbIndex];
                     lightboxImg.src = currentImg.src;
                     
-                    // Обновляем текст инфоблока
                     lbTitle.textContent = currentImg.folderTitle;
                     lbFilename.textContent = currentImg.fileName;
                 }
             }
 
+            /**
+             * Переход к предыдущему изображению в глобальном массиве
+             */
             function prevImage() {
                 if (currentLbIndex > 0) {
                     currentLbIndex--;
@@ -657,6 +1006,9 @@
                 }
             }
 
+            /**
+             * Переход к следующему изображению в глобальном массиве
+             */
             function nextImage() {
                 if (currentLbIndex < globalImages.length - 1) {
                     currentLbIndex++;
@@ -664,14 +1016,17 @@
                 }
             }
 
+            // Обработчики кликов интерфейса Lightbox
             document.getElementById('lb-close').addEventListener('click', () => lightbox.style.display = 'none');
             document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
             document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
             
+            // Закрытие Lightbox по клику на пустое пространство
             lightbox.addEventListener('click', (e) => {
                 if (e.target === lightbox) lightbox.style.display = 'none';
             });
 
+            // Управление Lightbox с помощью клавиатуры
             document.addEventListener('keydown', (e) => {
                 if (lightbox.style.display === 'flex') {
                     if (e.key === 'Escape') lightbox.style.display = 'none';
@@ -680,6 +1035,7 @@
                 }
             });
 
+            // Управление свайпами для мобильных устройств
             let touchStartX = 0;
             let touchEndX = 0;
             lightbox.addEventListener('touchstart', e => {
@@ -689,12 +1045,16 @@
                 touchEndX = e.changedTouches[0].screenX;
                 handleSwipe();
             });
+            
             function handleSwipe() {
                 const threshold = 50; 
                 if (touchEndX < touchStartX - threshold) nextImage();
                 if (touchEndX > touchStartX + threshold) prevImage();
             }
 
+            /**
+             * Асинхронная загрузка структуры папок из gallery.json
+             */
             async function loadAllFolders() {
                 try {
                     const response = await fetch('./gallery.json');
@@ -703,14 +1063,38 @@
                     
                     const customTitles = data._titles || {};
                     
+                    /**
+                     * ИСПРАВЛЕННАЯ ЛОГИКА СОРТИРОВКИ:
+                     * Правильно парсим и сортируем папки вида "Категория-Рейтинг" (например "10-11")
+                     * 1. Сравниваем категорию (до дефиса)
+                     * 2. Если категории равны, сравниваем рейтинг (после дефиса)
+                     */
                     const sortedFolders = Object.keys(data)
                         .filter(key => key !== '_titles')
-                        .sort((a, b) => parseInt(a) - parseInt(b));
+                        .sort((a, b) => {
+                            const partsA = a.split('-');
+                            const partsB = b.split('-');
+                            
+                            // Получаем номер категории
+                            const catA = parseInt(partsA[0], 10);
+                            const catB = parseInt(partsB[0], 10);
+                            
+                            // Если разные категории, сортируем по ним
+                            if (catA !== catB) {
+                                return catA - catB;
+                            }
+                            
+                            // Если категории совпадают, сортируем по второй цифре (рейтингу)
+                            const ratingA = partsA.length > 1 ? parseInt(partsA[1], 10) : 0;
+                            const ratingB = partsB.length > 1 ? parseInt(partsB[1], 10) : 0;
+                            
+                            return ratingA - ratingB;
+                        });
                     
+                    // Построение DOM-дерева на основе отсортированных данных
                     for (const folderNum of sortedFolders) {
                         const currentTitle = customTitles[folderNum] ? customTitles[folderNum] : `Folder #${folderNum}`;
                         
-                        // Заполняем массив объектами
                         data[folderNum].forEach(img => {
                             globalImages.push({
                                 src: `${folderNum}/${img}`,
@@ -723,10 +1107,16 @@
                     }
                 } catch (error) {
                     console.error("Error loading gallery:", error);
-                    gallery.innerHTML = '<p style="text-align:center">Error loading gallery.json. Did you create it?</p>';
+                    gallery.innerHTML = '<p style="text-align:center">Error loading gallery.json. Check network tab.</p>';
                 }
             }
 
+            /**
+             * Создает визуальный блок-полку для отдельной категории изображений
+             * @param {string} folderNum - Номер папки (ключ из JSON)
+             * @param {Array} images - Массив имен файлов внутри папки
+             * @param {string} folderTitle - Заголовок для UI
+             */
             function createFolderBlock(folderNum, images, folderTitle) {
                 const row = document.createElement('div');
                 row.className = 'folder-row';
@@ -771,6 +1161,7 @@
                 imgOriginal.src = originalSrc;
                 imgModified.src = activeSrc; 
 
+                // Случайная стартовая позиция слайдера для динамики
                 let startPos = 50;
                 if (window.innerWidth > 1000) {
                     const positions = [10, 25, 25, 50, 50, 75, 75, 90];
@@ -790,6 +1181,9 @@
                 sliderLine.style.left = `${startPos}%`;
                 imgModified.style.clipPath = `polygon(${startPos}% 0, 100% 0, 100% 100%, ${startPos}% 100%)`;
 
+                /**
+                 * Обновляет состояние отображения слайдера/изображений в зависимости от тумблера
+                 */
                 function updateDisplayMode() {
                     if (toggleCheckbox.checked) {
                         sliderInput.style.display = 'block';
@@ -847,7 +1241,6 @@
                     const imgPath = `${folderNum}/${images[i]}`;
                     thumbImg.src = imgPath;
                     
-                    // --- СОЗДАЕМ ИКОНКУ ЛУПЫ ---
                     const zoomHint = document.createElement('div');
                     zoomHint.className = 'zoom-hint';
                     zoomHint.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>`;
@@ -877,6 +1270,7 @@
                 gallery.appendChild(row);
             }
 
+            // Инициализация галереи
             loadAllFolders();
         });
     </script>
