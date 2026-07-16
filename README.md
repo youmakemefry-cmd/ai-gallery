@@ -1,8 +1,8 @@
 # DualVisor Gallery Engine
+<img width="1536" height="1024" alt="DUALVISOR" src="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" />
 <a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank">
   <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview" width="50%" />
 </a>
-
 
 A lightweight, zero-dependency, static-site gallery engine designed for AI artists, photographers, and creatives. Showcase your "Original vs. Variation" workflows with an interactive, glass-morphism inspired interface.
 
