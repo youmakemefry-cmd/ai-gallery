@@ -43,7 +43,7 @@ Whether you are working with AI image generation, photo restoration, or digital 
     </td>
     <td width="33.3%">
       <a href="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" target="_blank">
-        <img src="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" alt="Gallery Preview 3" style="height: 50%;" />
+        <img src="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" alt="Gallery Preview 3" style="height: 25%;" />
       </a>
     </td>
   </tr>
