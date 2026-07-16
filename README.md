@@ -17,7 +17,7 @@ Whether you are working with AI image generation, photo restoration, or digital 
 * **Built-in Blog & Contact Hub:** Share the stories behind your creations. DualVisor includes a beautifully integrated blog to publish your thoughts, updates, or prompt guides, alongside a simple contact page to help you connect with your audience and clients.
 * **Aesthetics First:** Inspired by modern dark-mode interfaces, the gallery uses subtle neon accents and smooth animations that make the entire experience feel premium, immersive, and incredibly satisfying to interact with.
 
-<img width="1774" height="887" alt="dualvisor-screen-mobile" src="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" />
+<img width="1536" height="1024" alt="dualvisor-screen-mobile" src="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" />
 
 ## Key Features
 * **Interactive Comparison:** Built-in before/after slider for side-by-side analysis.
@@ -29,25 +29,17 @@ Whether you are working with AI image generation, photo restoration, or digital 
 * **Dark Mode:** Aesthetic, developer-friendly dark theme.
 * **Zero Dependencies:** Pure HTML5, CSS3, and Vanilla JavaScript. Extremely fast and easy to deploy on GitHub Pages or any static host.
 
-<table>
-  <tr>
-    <td width="33.3%">
-      <a href="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" target="_blank">
-        <img src="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" alt="Gallery Preview 1" style="width: 100%;" />
-      </a>
-    </td>
-    <td width="33.3%">
-      <a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank">
-        <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview 2" style="width: 100%;" />
-      </a>
-    </td>
-    <td width="33.3%">
-      <a href="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" target="_blank">
-        <img src="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" alt="Gallery Preview 3" style="width: 100%;" />
-      </a>
-    </td>
-  </tr>
-</table>
+<div style="display: flex; gap: 10px; justify-content: center; align-items: center; height: 220px; width: 100%;">
+  <a href="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" target="_blank" style="height: 100%; display: block;">
+    <img src="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" alt="Gallery Preview 1" style="height: 100%; width: auto; object-fit: contain; border-radius: 6px;" />
+  </a>
+  <a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank" style="height: 100%; display: block;">
+    <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview 2" style="height: 100%; width: auto; object-fit: contain; border-radius: 6px;" />
+  </a>
+  <a href="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" target="_blank" style="height: 100%; display: block;">
+    <img src="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" alt="Gallery Preview 3" style="height: 100%; width: auto; object-fit: contain; border-radius: 6px;" />
+  </a>
+</div>
 
 ## Getting Started
 
