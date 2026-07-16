@@ -32,13 +32,13 @@ Whether you are working with AI image generation, photo restoration, or digital 
 <table>
   <tr>
     <td width="40%">
-      <a href="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" target="_blank">
-        <img src="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" alt="Gallery Preview 1" style="height: 100%;" />
-      </a>
-    </td>
-    <td width="40%">
       <a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank">
         <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview 2" style="height: 100%;" />
+      </a>
+    </td>
+        <td width="40%">
+      <a href="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" target="_blank">
+        <img src="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" alt="Gallery Preview 1" style="height: 100%;" />
       </a>
     </td>
     <td width="15%">
