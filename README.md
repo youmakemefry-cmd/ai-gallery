@@ -29,17 +29,17 @@ Whether you are working with AI image generation, photo restoration, or digital 
 * **Dark Mode:** Aesthetic, developer-friendly dark theme.
 * **Zero Dependencies:** Pure HTML5, CSS3, and Vanilla JavaScript. Extremely fast and easy to deploy on GitHub Pages or any static host.
 
-<p align="center">
-  <a href="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e"" target="_blank">
-    <img src="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e"" alt="Gallery Preview 1" width="48%" />
+<div style="display: flex; gap: 8px; align-items: stretch; justify-content: center;">
+  <a href="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" target="_blank" style="flex: 1; display: flex;">
+    <img src="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" alt="Gallery Preview 1" style="width: 100%; object-fit: cover; aspect-ratio: 3/4;" />
   </a>
-  <a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank">
-    <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview 2" width="48%" />
+  <a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank" style="flex: 1; display: flex;">
+    <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview 2" style="width: 100%; object-fit: cover; aspect-ratio: 3/4;" />
   </a>
-    <a href="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" target="_blank">
-    <img src="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" alt="Gallery Preview 2" width="48%" />
+  <a href="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" target="_blank" style="flex: 1; display: flex;">
+    <img src="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" alt="Gallery Preview 3" style="width: 100%; object-fit: cover; aspect-ratio: 3/4;" />
   </a>
-</p>
+</div>
 
 ## Getting Started
 
