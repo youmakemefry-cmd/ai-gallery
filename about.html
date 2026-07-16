@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About | DualVisor</title>
+    <style>
+        /* === БАЗОВЫЕ ПЕРЕМЕННЫЕ И СТИЛИ ИЗ ВАШЕГО САЙТА === */
+        :root {
+            --bg-color: #0c0c10;
+            --card-bg: #14141c;
+            --accent: #7c3aed;
+            --accent-cyan: #00f0ff;
+            --text-main: #f3f4f6;
+            --text-muted: #9ca3af;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --easing: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s var(--easing);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow-y: scroll;
+            line-height: 1.6;
+        }
+
+        a:focus-visible, button:focus-visible {
+            outline: 2px solid var(--accent-cyan);
+            outline-offset: 3px;
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: rgba(124, 58, 237, 0.3); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+
+        /* === GLASS HEADER === */
+        .glass-header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(20, 20, 28, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .nav-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            background: #2d2d38;
+        }
+
+        .nav-brand {
+            font-size: 1.4rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            display: flex;
+        }
+        .nav-brand .dual { color: var(--accent-cyan); text-shadow: 0 0 10px rgba(0, 240, 255, 0.2); }
+        .nav-brand .visor { color: var(--accent); text-shadow: 0 0 10px rgba(124, 58, 237, 0.2); }
+
+        .header-nav {
+            display: flex;
+            gap: 25px;
+        }
+
+        .header-nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+
+        .header-nav a:hover, .header-nav a.active {
+            color: var(--text-main);
+        }
+
+        .header-nav a.active {
+            border-bottom-color: var(--accent);
+        }
+
+        /* === ABOUT CONTENT & LAYOUT === */
+        .about-container {
+            flex: 1;
+            max-width: 1000px; /* Идеальная ширина для чтения текста */
+            margin: 0 auto;
+            padding: 40px 20px 80px 20px;
+            width: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        /* BANNER */
+        .banner-container {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            margin-bottom: -20px;
+        }
+        .banner-image {
+            width: 100%;
+            max-width: 1774px;
+            height: auto;
+            aspect-ratio: 1774 / 887;
+            background: #1e1e28;
+            border-radius: var(--radius-sm);
+            object-fit: cover;
+            border: 1px dashed rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        /* HERO SECTION */
+        .hero-section {
+            text-align: center;
+        }
+        .badge-pill {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--accent-cyan);
+            background: rgba(0, 240, 255, 0.05);
+            border: 1px solid rgba(0, 240, 255, 0.2);
+            padding: 6px 16px;
+            border-radius: 50px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin: 0 0 20px 0;
+            line-height: 1.1;
+            color: #fff;
+            letter-spacing: -0.5px;
+        }
+        .text-neon {
+            color: var(--accent);
+            text-shadow: 0 0 15px rgba(124, 58, 237, 0.4);
+        }
+        .hero-subtitle {
+            color: var(--text-muted);
+            font-size: 1.15rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* MISSION SECTION (Split Layout) */
+        .mission-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+            background-color: var(--card-bg);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            border: 1px solid rgba(255,255,255,0.02);
+            box-shadow: 0 0 30px rgba(124, 58, 237, 0.05);
+        }
+        .mission-text h2 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin: 0 0 20px 0;
+        }
+        .mission-text p {
+            color: var(--text-muted);
+            margin-bottom: 15px;
+            font-size: 1.05rem;
+        }
+        .mission-icon-box {
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(0, 240, 255, 0.05));
+            border: 1px solid rgba(124, 58, 237, 0.2);
+            border-radius: var(--radius-md);
+            padding: 40px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        .mission-icon-box .emoji {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            display: block;
+        }
+        .mission-icon-box h3 {
+            color: #fff;
+            margin: 0 0 10px 0;
+            font-size: 1.2rem;
+        }
+        .mission-icon-box p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin: 0;
+        }
+
+        /* SHOWCASE MOCKUPS (HD + Mobile) */
+        .showcase-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+        }
+        .hd-screens {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+        .mockup-image {
+            width: 100%;
+            background: #1e1e28;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            border: 1px solid rgba(255,255,255,0.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 1rem;
+            text-align: center;
+        }
+        .hd-screen { aspect-ratio: 16 / 9; }
+        .mobile-screen { aspect-ratio: 9 / 19.5; height: 100%; }
+
+        /* FEATURES SECTION (4 Cards) */
+        .features-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            color: #fff;
+            margin: 0 0 40px 0;
+        }
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 25px;
+        }
+        .feature-card {
+            background: rgba(20, 20, 28, 0.5);
+            border: 1px solid rgba(255,255,255,0.03);
+            border-radius: var(--radius-md);
+            padding: 30px;
+            transition: var(--transition);
+        }
+        .feature-card:hover {
+            border-color: rgba(124, 58, 237, 0.3);
+            background: var(--card-bg);
+            transform: translateY(-5px);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+        .feature-card h3 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin: 0 0 10px 0;
+        }
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* CTA SECTION */
+        .cta-section {
+            text-align: center;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.15), rgba(0, 240, 255, 0.05));
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: var(--radius-lg);
+            padding: 50px 30px;
+            box-shadow: 0 0 20px rgba(124, 58, 237, 0.1);
+        }
+        .cta-section h3 {
+            font-size: 1.8rem;
+            color: #fff;
+            margin: 0 0 15px 0;
+        }
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            margin: 0 auto 30px auto;
+            max-width: 500px;
+        }
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--accent);
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .cta-btn:hover {
+            background: #6d28d9;
+            transform: scale(1.05);
+        }
+
+        /* === FOOTER === */
+        .site-footer {
+            background: #09090d;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            padding: 25px 15px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: auto;
+        }
+        .footer-content {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+        }
+        .footer-content span.copyright { white-space: nowrap; }
+        .footer-icon {
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+        .footer-icon:hover {
+            color: var(--accent-cyan);
+            transform: translateY(-2px);
+        }
+        .footer-separator { color: #252530; font-size: 1.1rem; }
+
+        /* === АДАПТИВНОСТЬ === */
+        @media (max-width: 900px) {
+            .hero-title { font-size: 2.5rem; }
+            .mission-grid { grid-template-columns: 1fr; gap: 30px; padding: 30px; }
+            .features-grid { grid-template-columns: 1fr; }
+            .showcase-grid { grid-template-columns: 1fr; }
+            .mobile-screen { aspect-ratio: 16/9; max-height: none; }
+        }
+        @media (max-width: 600px) {
+            .glass-header { padding: 12px 15px; }
+            .nav-brand { font-size: 1.1rem; }
+            .header-nav { gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="glass-header">
+        <a href="index.html" class="header-left">
+            <img src="logo.png" alt="Logo" class="nav-icon" onerror="this.style.display='none'"> 
+            <div class="nav-brand">
+                <span class="dual">DUAL</span><span class="visor">VISOR</span>
+            </div>
+        </a>
+        <nav class="header-nav">
+            <a href="index.html">Gallery</a>
+            <a href="blog.html">Blog</a>
+            <a href="about.html" class="active">About</a>
+            <a href="contacts.html">Contacts</a>
+        </nav>
+    </header>
+
+    <main class="about-container">
+        
+        <div class="banner-container">
+            <img src="DUALVISOR-splashWIDE.jpg" alt="DualVisor Banner" class="banner-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+            <div class="banner-image" style="display:none;">[ 1447 x 887 Banner Space ]</div>
+        </div>
+
+        <section class="hero-section">
+            <span class="badge-pill">Behind the Vision</span>
+            <h1 class="hero-title">Redefining How You Present <br><span class="text-neon">AI Creations</span></h1>
+            <p class="hero-subtitle">
+                DualVisor isn’t just another grid of images. It is a premium, interactive exhibition space engineered specifically for digital artists, AI pioneers, and retouching experts.
+            </p>
+        </section>
+
+        <section class="mission-grid">
+            <div class="mission-text">
+                <h2>The Pure Aesthetic Approach</h2>
+                <p>We believe that high-end digital art deserves a high-end presentation. Ordinary portfolios often feel cluttered and fail to tell the story of transformation.</p>
+                <p>DualVisor solves this by putting user experience and visual flow at the center of attention. We build interfaces that step back and let your creative work shine, giving your viewers an intuitive and immersive way to interact with your art.</p>
+            </div>
+            <div class="mission-icon-box">
+                <span class="emoji">✨</span>
+                <h3>Focus on Details</h3>
+                <p>No complex setup, no unnecessary tech-bloat. Just a beautifully polished experience that feels satisfying to navigate.</p>
+            </div>
+        </section>
+
+        <div class="showcase-grid">
+            <div class="hd-screens">
+                <img src="DUALVISOR.jpg" alt="HD Showcase 1" class="mockup-image hd-screen" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="mockup-image hd-screen" style="display:none;">[ HD Screenshot Space 1 ]</div>
+
+                <img src="screen.png" alt="HD Showcase 2" class="mockup-image hd-screen" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="mockup-image hd-screen" style="display:none;">[ HD Screenshot Space 2 ]</div>
+            </div>
+            
+            <div class="mobile-screens">
+                <img src="dualvisor-screen-mobile.jpg" alt="Mobile Showcase" class="mockup-image mobile-screen" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+                <div class="mockup-image mobile-screen" style="display:none;">[ Mobile Vertical Screenshot Space ]</div>
+            </div>
+        </div>
+
+        <section class="features-section">
+            <h2>Designed for Impact</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">↔️</span>
+                    <h3>Visual Comparison Engine</h3>
+                    <p>Our signature sliding system allows your audience to see original vs. AI-enhanced changes in real-time with flawless, pixel-perfect accuracy.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📁</span>
+                    <h3>Clean Smart Organization</h3>
+                    <p>Organize your prompt series, restorations, or themes into nested visual folders. Your gallery stays neat and professional even with hundreds of files.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">📱</span>
+                    <h3>Perfect Fluid Layouts</h3>
+                    <p>Images aren’t meant to be awkwardly cropped. DualVisor adapts instantly to any aspect ratio and viewport, protecting your artistic composition.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🗣️</span>
+                    <h3>Creator-to-Client Hub</h3>
+                    <p>Seamlessly integrated blog modules and structured inquiry forms make it incredibly easy to explain your creative process and book new clients.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h3>Ready to explore?</h3>
+            <p>Dive straight into our showcase gallery to experience the smooth controls and modern interface in action.</p>
+            <a href="index.html" class="cta-btn">
+                Go to Gallery <span>→</span>
+            </a>
+        </section>
+
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-content">
+            <span class="copyright">&copy; 2026 Sergei N.</span>
+            <span class="footer-separator">|</span>
+            <a href="mailto:esw1337@gmail.com" class="footer-icon" title="Email me">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+            </a>
+            <span class="footer-separator">|</span>
+            <a href="https://github.com/youmakemefry-cmd" target="_blank" class="footer-icon" title="GitHub">
+                <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+            </a>
+        </div>
+    </footer>
+
+</body>
+</html>
