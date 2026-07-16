@@ -1,11 +1,23 @@
-# DualVisor Gallery Engine
-<img width="1536" height="1024" alt="DUALVISOR" src="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" />
 
+DualVisor AI Gallery Enhanced
 
-A lightweight, zero-dependency, static-site gallery engine designed for AI artists, photographers, and creatives. Showcase your "Original vs. Variation" workflows with an interactive, glass-morphism inspired interface.
+<img width="1774" height="887" alt="DUALVISOR-splashWIDE" src="https://github.com/user-attachments/assets/c31038fc-b7f6-4b1d-ae34-29abda10bd21" />
 
-## Why this engine?
-I built this because existing portfolio templates often lack a way to display non-linear AI generation processes. This engine automates the gallery creation process so you can focus on your art, not on manual HTML coding.
+Welcome to **DualVisor**, a clean, modern, and highly interactive web gallery designed specifically for digital artists, AI creators, and designers. 
+
+Whether you are working with AI image generation, photo restoration, or digital retouching, DualVisor gives you the perfect stage to showcase your work. It focuses entirely on what matters most: your images and the creative process behind them.
+
+---
+
+## ✨ What Makes It Special?
+
+* **Interactive Slide-to-Compare:** Let your audience experience the transformation. With our smooth, touch-friendly split-screen slider, anyone can easily slide back and forth to see the exact changes between your original image and the enhanced AI version.
+* **Smart Folder Organization:** No more messy grids. DualVisor automatically organizes your artwork into beautiful, structured folders. It makes browsing through large collections of various concepts feel effortless and neat.
+* **Adaptive & Responsive Layouts:** Designed to look stunning on any screen. Whether your viewers are on a massive 4K desktop monitor or browsing on their mobile phones, the gallery dynamically adjusts to keep your images perfectly framed without awkward cropping.
+* **Built-in Blog & Contact Hub:** Share the stories behind your creations. DualVisor includes a beautifully integrated blog to publish your thoughts, updates, or prompt guides, alongside a simple contact page to help you connect with your audience and clients.
+* **Aesthetics First:** Inspired by modern dark-mode interfaces, the gallery uses subtle neon accents and smooth animations that make the entire experience feel premium, immersive, and incredibly satisfying to interact with.
+
+<img width="1536" height="1024" alt="dualvisor-screen-mobile" src="https://github.com/user-attachments/assets/17fd1bb3-70cc-47dc-b210-3501f0f4cfa5" />
 
 ## Key Features
 * **Interactive Comparison:** Built-in before/after slider for side-by-side analysis.
@@ -17,9 +29,25 @@ I built this because existing portfolio templates often lack a way to display no
 * **Dark Mode:** Aesthetic, developer-friendly dark theme.
 * **Zero Dependencies:** Pure HTML5, CSS3, and Vanilla JavaScript. Extremely fast and easy to deploy on GitHub Pages or any static host.
 
-<a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank">
-  <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview" width="50%" />
-</a>
+<table>
+  <tr>
+    <td width="40%">
+      <a href="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" target="_blank">
+        <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview 2" style="height: 100%;" />
+      </a>
+    </td>
+        <td width="40%">
+      <a href="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" target="_blank">
+        <img src="https://github.com/user-attachments/assets/1f16f203-0815-48db-8d60-b325692c3d7e" alt="Gallery Preview 1" style="height: 100%;" />
+      </a>
+    </td>
+    <td width="15%">
+      <a href="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" target="_blank">
+        <img src="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" alt="Gallery Preview 3" style="height: 50%;" />
+      </a>
+    </td>
+  </tr>
+</table>
 
 ## Getting Started
 
