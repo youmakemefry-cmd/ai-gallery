@@ -3,15 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contacts | NEUROVISTA</title>
+    <title>Contacts | DualVisor</title>
     <style>
         :root {
-            --bg-color: #0f0f13;
-            --card-bg: #1a1a21;
+            --bg-color: #0c0c10;
+            --card-bg: #14141c;
             --accent: #7c3aed;
             --accent-cyan: #00f0ff;
             --text-main: #f3f4f6;
             --text-muted: #9ca3af;
+            --radius-lg: 20px;
+            --radius-md: 12px;
+            --radius-sm: 8px;
+            --easing: cubic-bezier(0.4, 0, 0.2, 1);
+            --transition: all 0.3s var(--easing);
         }
 
         body {
@@ -19,12 +24,17 @@
             padding: 0;
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             display: flex;
             flex-direction: column;
             min-height: 100vh;
-            /* Принудительный скроллбар, чтобы шапка не прыгала между страницами */
             overflow-y: scroll; 
+        }
+
+        /* Фокус-состояния (WCAG 2.2) */
+        a:focus-visible {
+            outline: 2px solid var(--accent-cyan);
+            outline-offset: 3px;
         }
 
         /* --- GLASS HEADER --- */
@@ -32,7 +42,7 @@
             position: sticky;
             top: 0;
             z-index: 1000;
-            background: rgba(26, 26, 33, 0.7);
+            background: rgba(20, 20, 28, 0.7);
             backdrop-filter: blur(12px);
             -webkit-backdrop-filter: blur(12px);
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
@@ -52,7 +62,7 @@
         .nav-icon {
             width: 32px;
             height: 32px;
-            border-radius: 8px;
+            border-radius: var(--radius-sm);
             object-fit: cover;
             background: #2d2d38;
         }
@@ -63,8 +73,14 @@
             letter-spacing: 1px;
             display: flex;
         }
-        .nav-brand .neuro { color: var(--accent-cyan); }
-        .nav-brand .vista { color: var(--accent); }
+        .nav-brand .dual { 
+            color: var(--accent-cyan); 
+            text-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+        }
+        .nav-brand .visor { 
+            color: var(--accent); 
+            text-shadow: 0 0 10px rgba(124, 58, 237, 0.2);
+        }
 
         .header-nav {
             display: flex;
@@ -76,7 +92,9 @@
             text-decoration: none;
             font-size: 0.95rem;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: var(--transition);
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
         }
 
         .header-nav a:hover, .header-nav a.active {
@@ -84,8 +102,7 @@
         }
 
         .header-nav a.active {
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 4px;
+            border-bottom-color: var(--accent);
         }
 
         /* --- CONTACTS CONTENT --- */
@@ -99,9 +116,9 @@
 
         .contact-card {
             background-color: var(--card-bg);
-            border-radius: 16px;
+            border-radius: var(--radius-lg);
             padding: 40px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
             text-align: center;
             max-width: 500px;
             width: 100%;
@@ -117,7 +134,7 @@
 
         .contact-item {
             margin-bottom: 25px;
-            font-size: 1.1rem;
+            font-size: 1.15rem;
         }
 
         .contact-item span {
@@ -125,11 +142,11 @@
             display: block;
             font-size: 0.85rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             margin-bottom: 8px;
+            font-weight: 600;
         }
 
-        /* Стили для ссылок с иконками внутри карточки */
         .contact-link {
             display: inline-flex;
             align-items: center;
@@ -138,7 +155,9 @@
             color: var(--accent-cyan);
             text-decoration: none;
             font-weight: 500;
-            transition: color 0.2s, transform 0.2s;
+            transition: var(--transition);
+            border-radius: var(--radius-sm);
+            padding: 4px 8px;
         }
 
         .contact-link svg {
@@ -147,13 +166,14 @@
         }
 
         .contact-link:hover {
-            color: var(--accent);
+            color: var(--text-main);
+            background: rgba(0, 240, 255, 0.08);
             transform: translateY(-2px);
         }
 
         /* --- FOOTER --- */
         .site-footer {
-            background: #121216;
+            background: #09090d;
             border-top: 1px solid rgba(255,255,255,0.05);
             padding: 25px 15px;
             text-align: center;
@@ -175,14 +195,14 @@
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: color 0.2s, transform 0.2s;
+            transition: var(--transition);
         }
         .footer-icon:hover {
             color: var(--accent-cyan);
             transform: translateY(-2px);
         }
         .footer-separator {
-            color: #374151;
+            color: #252530;
             font-size: 1.1rem;
         }
 
@@ -201,7 +221,7 @@
         <a href="index.html" class="header-left">
             <img src="logo.png" alt="Logo" class="nav-icon" onerror="this.style.display='none'"> 
             <div class="nav-brand">
-                <span class="neuro">NEURO</span><span class="vista">VISTA</span>
+                <span class="dual">DUAL</span><span class="visor">VISOR</span>
             </div>
         </a>
         <nav class="header-nav">
