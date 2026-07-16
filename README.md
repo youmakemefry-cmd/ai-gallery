@@ -41,9 +41,9 @@ Whether you are working with AI image generation, photo restoration, or digital 
         <img src="https://github.com/user-attachments/assets/027912e8-bcc6-451e-b4f2-3268cbe9cd27" alt="Gallery Preview 2" style="height: 100%;" />
       </a>
     </td>
-    <td width="33.3%">
+    <td width="16.3%">
       <a href="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" target="_blank">
-        <img src="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" alt="Gallery Preview 3" style="height: 25%;" />
+        <img src="https://github.com/user-attachments/assets/e40dba0d-c89c-420e-998c-44a3a764e281" alt="Gallery Preview 3" style="height: 50%;" />
       </a>
     </td>
   </tr>
