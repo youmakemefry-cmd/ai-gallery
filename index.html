@@ -390,6 +390,10 @@
             cursor: pointer;
             transition: var(--transition);
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         .lb-mobile-nav button:active {
             background: var(--accent);
@@ -819,15 +823,29 @@
             }
 
             .slider-wrapper { width: 100%; min-width: 0; }
-            .thumbnails-wrapper { height: 145px; min-height: auto; width: 100%; min-width: 0; }
+            .thumbnails-wrapper { height: 155px; min-height: auto; width: 100%; min-width: 0; }
 
+            /* Принудительно видимая полоса прокрутки на мобильных */
             .thumbnails-container {
                 position: relative;
                 flex-direction: row;
                 overflow-x: auto;
                 overflow-y: hidden;
                 align-items: center;
-                padding-bottom: 10px;
+                padding-bottom: 14px;
+                display: flex;
+            }
+            .thumbnails-container::-webkit-scrollbar {
+                height: 5px !important;
+                display: block !important;
+            }
+            .thumbnails-container::-webkit-scrollbar-track {
+                background: rgba(255, 255, 255, 0.05) !important;
+                border-radius: 10px;
+            }
+            .thumbnails-container::-webkit-scrollbar-thumb {
+                background: rgba(0, 240, 255, 0.4) !important;
+                border-radius: 10px;
             }
 
             .thumbnail-card {
@@ -838,8 +856,19 @@
             }
             .thumbnail-card img { width: 100%; height: 75px; flex: none; }
             
-            .zoom-hint { bottom: 12px; right: 12px; width: 20px; height: 20px; opacity: 1; }
-            .zoom-hint svg { width: 12px; height: 12px; }
+            /* Увеличенная круглая иконка лупы для удобного тапа пальцем */
+            .zoom-hint { 
+                bottom: 10px; 
+                right: 10px; 
+                width: 38px; 
+                height: 38px; 
+                opacity: 1; 
+                background: rgba(20, 20, 28, 0.9);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.5);
+            }
+            .zoom-hint svg { width: 18px; height: 18px; }
 
             .thumbnail-label { font-size: 0.75rem; }
             
@@ -881,8 +910,8 @@
         <div class="lb-nav lb-next" id="lb-next">&rsaquo;</div>
 
         <div class="lb-mobile-nav">
-            <button id="lb-mobile-prev">&lsaquo; Назад</button>
-            <button id="lb-mobile-next">Вперед &rsaquo;</button>
+            <button id="lb-mobile-prev">&lsaquo; Prev</button>
+            <button id="lb-mobile-next">Next &rsaquo;</button>
         </div>
     </div>
 
@@ -950,7 +979,6 @@
             document.getElementById('lb-mobile-prev').addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
             document.getElementById('lb-mobile-next').addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
 
-            // Закрытие Lightbox при тапе по основной части экрана или фотке (кроме элементов навигации)
             lightbox.addEventListener('click', (e) => {
                 if (e.target.closest('#lb-prev') || e.target.closest('#lb-next') || e.target.closest('.lb-mobile-nav') || e.target.closest('#lb-close')) {
                     return;
@@ -1087,7 +1115,6 @@
                 
                 imgModified.style.clipPath = `polygon(${startPos}% 0, 100% 0, 100% 100%, ${startPos}% 100%)`;
 
-                // Функция вспышки/ауры для тогглера при любом изменении
                 function triggerToggleGlow() {
                     toggleCheckbox.classList.remove('glow-active');
                     void toggleCheckbox.offsetWidth; 
@@ -1095,15 +1122,28 @@
                 }
 
                 function updateDisplayMode() {
-                    if (toggleCheckbox.checked) {
-                        sliderLine.style.style.setProperty('display', 'block');
-                        imgModified.style.style.setProperty('display', 'block');
+                    const allThumbs = thumbContainer.querySelectorAll('.thumbnail-card');
+                    const isOriginalActive = allThumbs[0] && allThumbs[0].classList.contains('active');
+                    
+                    if (isOriginalActive) {
+                        // Если выбран Оригинал — принудительно скрываем все инструменты сравнения
+                        toggleCheckbox.checked = false;
+                        sliderLine.style.display = 'none';
+                        imgModified.style.display = 'none';
                         imgOriginal.src = originalSrc;
-                        imgModified.src = activeSrc;
                     } else {
-                        sliderLine.style.style.setProperty('display', 'none');
-                        imgModified.style.style.setProperty('display', 'none');
-                        imgOriginal.src = activeSrc;
+                        // Если выбрана AI-вариация
+                        if (toggleCheckbox.checked) {
+                            sliderLine.style.display = 'block';
+                            imgModified.style.display = 'block';
+                            imgOriginal.src = originalSrc;
+                            imgModified.src = activeSrc;
+                        } else {
+                            // Compare OFF: слайдер и оригинал исчезают, выводится только чистая вариация
+                            sliderLine.style.display = 'none';
+                            imgModified.style.display = 'none';
+                            imgOriginal.src = activeSrc;
+                        }
                     }
                 }
 
@@ -1141,21 +1181,32 @@
                 sliderHandle.addEventListener('pointerup', stopDrag);
                 sliderHandle.addEventListener('pointercancel', stopDrag);
 
-                // Клик на большом превью включает/отключает compare. Исключение — если выбран Original
+                // Клик по большой картинке предпросмотра
                 sliderWrapper.addEventListener('click', (e) => {
                     if (e.target.closest('.slider-handle')) return;
                     
-                    const allCards = thumbContainer.querySelectorAll('.thumbnail-card');
-                    if (allCards[0] && allCards[0].classList.contains('active')) {
-                        return; // Текущая фотка оригинал — ничего не делаем
-                    }
+                    const allThumbs = thumbContainer.querySelectorAll('.thumbnail-card');
+                    const isOriginalActive = allThumbs[0] && allThumbs[0].classList.contains('active');
+                    
+                    // Если активен Оригинал — тапы по превью полностью игнорируются
+                    if (isOriginalActive) return;
 
+                    // Если выбрана вариация — переключаем тумблер ON/OFF
                     toggleCheckbox.checked = !toggleCheckbox.checked;
                     triggerToggleGlow();
                     updateDisplayMode();
                 });
 
+                // Изменение состояния тумблера вручную
                 toggleCheckbox.addEventListener('change', () => {
+                    const allThumbs = thumbContainer.querySelectorAll('.thumbnail-card');
+                    const isOriginalActive = allThumbs[0] && allThumbs[0].classList.contains('active');
+                    
+                    if (isOriginalActive) {
+                        toggleCheckbox.checked = false; // Не даем включить слайдер на оригинале
+                        return;
+                    }
+                    
                     triggerToggleGlow();
                     updateDisplayMode();
                 });
@@ -1196,54 +1247,37 @@
                     thumbCard.append(label, thumbImg, zoomHint);
                     thumbContainer.appendChild(thumbCard);
 
-                    // Изолированный вызов Lightbox строго из мини-лупы
                     zoomHint.addEventListener('click', (e) => {
                         e.stopPropagation();
                         openLightbox(imgPath);
                     });
 
-                    // Поведение полки вариаций по клику на карточки
                     thumbCard.addEventListener('click', (e) => {
                         if (e.target.closest('.zoom-hint')) return;
 
                         const isCurrentlyActive = thumbCard.classList.contains('active');
+                        const allThumbs = thumbContainer.querySelectorAll('.thumbnail-card');
+                        
+                        allThumbs.forEach(t => t.classList.remove('active'));
+                        thumbCard.classList.add('active');
 
                         if (i === 0) {
-                            // Клик по Original — сompare вырубается, повторные клики ничего не включают
+                            // Клик по Original — убираем compare в положение off и обновляем вид
                             toggleCheckbox.checked = false;
                             triggerToggleGlow();
-                            activeSrc = imgPath;
-                            
-                            const allThumbs = thumbContainer.querySelectorAll('.thumbnail-card');
-                            allThumbs.forEach(t => t.classList.remove('active'));
-                            thumbCard.classList.add('active');
-                            
                             updateDisplayMode();
                         } else {
                             // Клик по AI Variation
+                            activeSrc = imgPath;
                             if (!isCurrentlyActive) {
-                                // Первый клик по новой вариации — compare выключается
+                                // Первый клик по вариации — смотрим только на неё (Compare OFF)
                                 toggleCheckbox.checked = false;
-                                triggerToggleGlow();
-                                activeSrc = imgPath;
-                                
-                                const allThumbs = thumbContainer.querySelectorAll('.thumbnail-card');
-                                allThumbs.forEach(t => t.classList.remove('active'));
-                                thumbCard.classList.add('active');
-                                
-                                updateDisplayMode();
                             } else {
-                                // Повторный клик по уже активной вариации — compare включается с рандомным сплитом
-                                toggleCheckbox.checked = true;
-                                triggerToggleGlow();
-                                
-                                const positions = [25, 35, 50, 65, 75];
-                                const randPos = positions[Math.floor(Math.random() * positions.length)];
-                                sliderLine.style.left = `${randPos}%`;
-                                imgModified.style.clipPath = `polygon(${randPos}% 0, 100% 0, 100% 100%, ${randPos}% 100%)`;
-                                
-                                updateDisplayMode();
+                                // Повторный клик по УЖЕ активной вариации — возвращает Compare в положение ON
+                                toggleCheckbox.checked = !toggleCheckbox.checked;
                             }
+                            triggerToggleGlow();
+                            updateDisplayMode();
                         }
                     });
                 }
