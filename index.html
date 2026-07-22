@@ -282,16 +282,6 @@
             box-sizing: border-box;
         }
 
-        /* --- СКЕЛЕТОН ДЛЯ ЛЕНИВОЙ ЗАГРУЗКИ --- */
-        .folder-placeholder {
-            min-height: 480px;
-            background-color: rgba(20, 20, 28, 0.3);
-            border-radius: var(--radius-lg);
-            border: 1px dashed rgba(255, 255, 255, 0.05);
-            width: 100%;
-            box-sizing: border-box;
-        }
-
         /* ==========================================================================
            LIGHTBOX
            ========================================================================== */
@@ -821,11 +811,6 @@
                 margin-top: 20px;
                 padding: 0 10px;
             }
-            
-            /* Скелетон на мобилке меньше */
-            .folder-placeholder {
-                min-height: 260px;
-            }
 
             .folder-title { font-size: 0.95rem; }
             .image-count { display: none; }
@@ -858,13 +843,13 @@
             }
             
             .thumbnails-container::-webkit-scrollbar-track {
-                background: #060609 !important; 
+                background: #060609 !important; /* Глубокий темный фон, предотвращающий скрытие скроллбара ОС */
                 border-radius: 10px;
                 border: 1px solid rgba(255, 255, 255, 0.03);
             }
             
             .thumbnails-container::-webkit-scrollbar-thumb {
-                background: var(--accent-cyan) !important; 
+                background: var(--accent-cyan) !important; /* Яркий неоновый ползунок виден постоянно */
                 border-radius: 10px;
                 box-shadow: 0 0 4px var(--accent-glow);
             }
@@ -886,7 +871,7 @@
                 opacity: 1; 
                 background: rgba(20, 20, 28, 0.95);
                 border: 1px solid rgba(255, 255, 255, 0.15);
-                border-radius: var(--radius-sm); 
+                border-radius: var(--radius-sm); /* Приведение к единому стилю сайта */
                 box-shadow: 0 4px 10px rgba(0,0,0,0.4);
                 display: flex !important;
                 justify-content: center !important;
@@ -896,7 +881,7 @@
             .zoom-hint svg { 
                 width: 15px !important; 
                 height: 15px !important; 
-                margin: 0 !important; 
+                margin: 0 !important; /* Убирает любые смещения иконки */
                 display: block;
             }
 
@@ -972,16 +957,6 @@
             let globalImages = [];
             let currentLbIndex = -1;
 
-            // Вспомогательная функция замены расширения для путей к кэшу webp
-            function toWebpPath(folder, filename) {
-                const lastDotIndex = filename.lastIndexOf('.');
-                const base = lastDotIndex !== -1 ? filename.substring(0, lastDotIndex) : filename;
-                return {
-                    preview: `_previews/${folder}/${base}.webp`,
-                    thumb: `_thumbs/${folder}/${base}.webp`
-                };
-            }
-
             function openLightbox(src) {
                 currentLbIndex = globalImages.findIndex(img => img.src === src);
                 if (currentLbIndex === -1) currentLbIndex = 0; 
@@ -992,7 +967,7 @@
             function updateLightboxImage() {
                 if (currentLbIndex >= 0 && currentLbIndex < globalImages.length) {
                     const currentImg = globalImages[currentLbIndex];
-                    lightboxImg.src = currentImg.src; // Лайтбокс запрашивает ОРИГИНАЛ
+                    lightboxImg.src = currentImg.src;
                     lbTitle.textContent = currentImg.folderTitle;
                     lbFilename.textContent = currentImg.fileName;
                 }
@@ -1050,21 +1025,6 @@
                 if (touchEndX > touchStartX + threshold) prevImage();
             }
 
-            // Инициализация ленивой загрузки полок
-            const folderObserver = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        const placeholder = entry.target;
-                        const folderNum = placeholder.getAttribute('data-folder');
-                        const images = JSON.parse(placeholder.getAttribute('data-images'));
-                        const title = placeholder.getAttribute('data-title');
-                        
-                        renderFolderBlock(placeholder, folderNum, images, title);
-                        observer.unobserve(placeholder); 
-                    }
-                });
-            }, { rootMargin: '200px 0px' });
-
             async function loadAllFolders() {
                 try {
                     const response = await fetch('./gallery.json');
@@ -1086,10 +1046,7 @@
                             const ratingA = partsA.length > 1 ? parseInt(partsA[1], 10) : 0;
                             const ratingB = partsB.length > 1 ? parseInt(partsB[1], 10) : 0;
                             
-                            const validRatingA = isNaN(ratingA) ? 0 : ratingA;
-                            const validRatingB = isNaN(ratingB) ? 0 : ratingB;
-                            
-                            return validRatingA - validRatingB;
+                            return ratingA - ratingB;
                         });
                     
                     for (const folderNum of sortedFolders) {
@@ -1103,14 +1060,7 @@
                             });
                         });
 
-                        const placeholder = document.createElement('div');
-                        placeholder.className = 'folder-placeholder';
-                        placeholder.setAttribute('data-folder', folderNum);
-                        placeholder.setAttribute('data-title', currentTitle);
-                        placeholder.setAttribute('data-images', JSON.stringify(data[folderNum]));
-                        
-                        gallery.appendChild(placeholder);
-                        folderObserver.observe(placeholder);
+                        createFolderBlock(folderNum, data[folderNum], currentTitle);
                     }
                 } catch (error) {
                     console.error("Error loading gallery:", error);
@@ -1118,7 +1068,7 @@
                 }
             }
 
-            function renderFolderBlock(placeholder, folderNum, images, folderTitle) {
+            function createFolderBlock(folderNum, images, folderTitle) {
                 const row = document.createElement('div');
                 row.className = 'folder-row';
                 
@@ -1159,15 +1109,8 @@
                 const originalSrc = `${folderNum}/${images[0]}`;
                 let activeSrc = `${folderNum}/${images[1]}`; 
 
-                const origPaths = toWebpPath(folderNum, images[0]);
-                let activeWebpPaths = toWebpPath(folderNum, images[1]); 
-
-                // --- ФОЛЛБЭК ДЛЯ СЛАЙДЕРА ---
-                imgOriginal.src = origPaths.preview;
-                imgOriginal.onerror = () => { imgOriginal.src = originalSrc; };
-
-                imgModified.src = activeWebpPaths.preview;
-                imgModified.onerror = () => { imgModified.src = activeSrc; };
+                imgOriginal.src = originalSrc;
+                imgModified.src = activeSrc; 
 
                 let startPos = 50;
                 if (window.innerWidth > 1000) {
@@ -1201,17 +1144,17 @@
                         toggleCheckbox.checked = false;
                         sliderLine.style.display = 'none';
                         imgModified.style.display = 'none';
-                        imgOriginal.src = origPaths.preview;
+                        imgOriginal.src = originalSrc;
                     } else {
                         if (toggleCheckbox.checked) {
                             sliderLine.style.display = 'block';
                             imgModified.style.display = 'block';
-                            imgOriginal.src = origPaths.preview;
-                            imgModified.src = activeWebpPaths.preview;
+                            imgOriginal.src = originalSrc;
+                            imgModified.src = activeSrc;
                         } else {
                             sliderLine.style.display = 'none';
                             imgModified.style.display = 'none';
-                            imgOriginal.src = activeWebpPaths.preview;
+                            imgOriginal.src = activeSrc;
                         }
                     }
                 }
@@ -1301,12 +1244,8 @@
                     label.innerHTML = `<span class="${badgeClass}">${badgeText}</span>`;
                     
                     const thumbImg = document.createElement('img');
-                    const fullOriginalPath = `${folderNum}/${images[i]}`;
-                    const paths = toWebpPath(folderNum, images[i]);
-                    
-                    // --- ФОЛЛБЭК ДЛЯ МИНИАТЮР ---
-                    thumbImg.src = paths.thumb; 
-                    thumbImg.onerror = () => { thumbImg.src = fullOriginalPath; };
+                    const imgPath = `${folderNum}/${images[i]}`;
+                    thumbImg.src = imgPath;
                     
                     const zoomHint = document.createElement('div');
                     zoomHint.className = 'zoom-hint';
@@ -1317,8 +1256,7 @@
 
                     zoomHint.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        // Лайтбокс всегда открывает тяжелый оригинал
-                        openLightbox(fullOriginalPath);
+                        openLightbox(imgPath);
                     });
 
                     thumbCard.addEventListener('click', (e) => {
@@ -1335,9 +1273,7 @@
                             triggerToggleGlow();
                             updateDisplayMode();
                         } else {
-                            activeSrc = fullOriginalPath;
-                            activeWebpPaths = toWebpPath(folderNum, images[i]);
-                            
+                            activeSrc = imgPath;
                             if (!isCurrentlyActive) {
                                 toggleCheckbox.checked = false;
                             } else {
@@ -1349,8 +1285,7 @@
                     });
                 }
 
-                placeholder.className = ""; 
-                placeholder.appendChild(row);
+                gallery.appendChild(row);
             }
 
             loadAllFolders();
