@@ -19,7 +19,18 @@
     "10-8": "Post-Apocalyptic Crossroads",
     "10-7": "35 Futuristic Cathedral",
     "1-8": "50-2 Cyberpunk Rooftop v2",
-    "40-10": "36 WWI Trench Night Film Still"
+    "40-10": "36 WWI Trench Night Film Still",
+    "50-1": "Winter Radiance",
+    "50-2": "2 Fesitve tree VDNKH square",
+    "50-3": "2 Festive Tree v3",
+    "50-4": "Midnight Christmas Glow",
+    "50-5": "Snowfall at the Grand Plaza",
+    "50-6": "Golden Lights of Winter",
+    "50-7": "Christmas Majesty",
+    "50-8": "Festive Night Symphony",
+    "50-9": "The Illuminated Evergreen",
+    "50-10": "Holiday Splendor",
+    "50-11": "Winter Wonderland in Lights"
   },
   "1-1": [
     "1-1.jpg",
@@ -111,13 +122,67 @@
     "37 Ethereal Alien Crystal Temple.jpg"
   ],
   "1-8": [
-    "50.jpg",
     "50-1 Cyberpunk Rooftop.jpg",
-    "50-2 Cyberpunk Rooftop v2.jpg"
+    "50-2 Cyberpunk Rooftop v2.jpg",
+    "50.jpg"
   ],
   "40-10": [
     "35.jpg",
     "36 WWI Trench Night Film Still.jpg",
     "37 WWI Trench Night Film Still v2.jpg"
+  ],
+  "50-1": [
+    "1.jpg",
+    "2 Festive tree in the snow.jpg",
+    "3 Festive tree in the snow.jpg"
+  ],
+  "50-2": [
+    "1.jpg",
+    "2 Fesitve tree VDNKH square.jpg",
+    "3 Festive tree VDNKH square.jpg"
+  ],
+  "50-3": [
+    "1.jpg",
+    "2 Festive Tree v3.jpg",
+    "2 Festive Tree v4.jpg"
+  ],
+  "50-4": [
+    "1.jpg",
+    "2.jpg",
+    "3.jpg"
+  ],
+  "50-5": [
+    "1.jpg",
+    "2 A worker is clearing snow from the structure..jpg",
+    "3 A worker is clearing snow from the structure..jpg",
+    "4 A worker is clearing snow from the structure..jpg"
+  ],
+  "50-6": [
+    "1.jpg",
+    "2 worker performs a snow cleaning.jpg"
+  ],
+  "50-7": [
+    "1.jpg",
+    "2.jpg",
+    "3.jpg"
+  ],
+  "50-8": [
+    "1.jpg",
+    "2.jpg",
+    "3.jpg"
+  ],
+  "50-9": [
+    "1.jpg",
+    "2.jpg",
+    "3.jpg"
+  ],
+  "50-10": [
+    "1.jpg",
+    "2.jpg",
+    "3.jpg"
+  ],
+  "50-11": [
+    "1.jpg",
+    "2.jpg"
   ]
 }
