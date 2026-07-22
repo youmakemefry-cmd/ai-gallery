@@ -282,6 +282,16 @@
             box-sizing: border-box;
         }
 
+        /* --- СКЕЛЕТОН ДЛЯ ЛЕНИВОЙ ЗАГРУЗКИ --- */
+        .folder-placeholder {
+            min-height: 480px;
+            background-color: rgba(20, 20, 28, 0.3);
+            border-radius: var(--radius-lg);
+            border: 1px dashed rgba(255, 255, 255, 0.05);
+            width: 100%;
+            box-sizing: border-box;
+        }
+
         /* ==========================================================================
            LIGHTBOX
            ========================================================================== */
@@ -811,6 +821,11 @@
                 margin-top: 20px;
                 padding: 0 10px;
             }
+            
+            /* Скелетон на мобилке меньше */
+            .folder-placeholder {
+                min-height: 260px;
+            }
 
             .folder-title { font-size: 0.95rem; }
             .image-count { display: none; }
@@ -843,13 +858,13 @@
             }
             
             .thumbnails-container::-webkit-scrollbar-track {
-                background: #060609 !important; /* Глубокий темный фон, предотвращающий скрытие скроллбара ОС */
+                background: #060609 !important; 
                 border-radius: 10px;
                 border: 1px solid rgba(255, 255, 255, 0.03);
             }
             
             .thumbnails-container::-webkit-scrollbar-thumb {
-                background: var(--accent-cyan) !important; /* Яркий неоновый ползунок виден постоянно */
+                background: var(--accent-cyan) !important; 
                 border-radius: 10px;
                 box-shadow: 0 0 4px var(--accent-glow);
             }
@@ -871,7 +886,7 @@
                 opacity: 1; 
                 background: rgba(20, 20, 28, 0.95);
                 border: 1px solid rgba(255, 255, 255, 0.15);
-                border-radius: var(--radius-sm); /* Приведение к единому стилю сайта */
+                border-radius: var(--radius-sm); 
                 box-shadow: 0 4px 10px rgba(0,0,0,0.4);
                 display: flex !important;
                 justify-content: center !important;
@@ -881,7 +896,7 @@
             .zoom-hint svg { 
                 width: 15px !important; 
                 height: 15px !important; 
-                margin: 0 !important; /* Убирает любые смещения иконки */
+                margin: 0 !important; 
                 display: block;
             }
 
@@ -957,6 +972,15 @@
             let globalImages = [];
             let currentLbIndex = -1;
 
+            // Вспомогательная функция замены расширения для путей к кэшу webp
+            function toWebpPath(folder, filename) {
+                const base = filename.substring(0, filename.lastIndexOf('.'));
+                return {
+                    preview: `_previews/${folder}/${base}.webp`,
+                    thumb: `_thumbs/${folder}/${base}.webp`
+                };
+            }
+
             function openLightbox(src) {
                 currentLbIndex = globalImages.findIndex(img => img.src === src);
                 if (currentLbIndex === -1) currentLbIndex = 0; 
@@ -967,7 +991,7 @@
             function updateLightboxImage() {
                 if (currentLbIndex >= 0 && currentLbIndex < globalImages.length) {
                     const currentImg = globalImages[currentLbIndex];
-                    lightboxImg.src = currentImg.src;
+                    lightboxImg.src = currentImg.src; // Лайтбокс запрашивает ОРИГИНАЛ
                     lbTitle.textContent = currentImg.folderTitle;
                     lbFilename.textContent = currentImg.fileName;
                 }
@@ -1025,6 +1049,22 @@
                 if (touchEndX > touchStartX + threshold) prevImage();
             }
 
+            // Инициализация ленивой загрузки полок
+            const folderObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const placeholder = entry.target;
+                        const folderNum = placeholder.getAttribute('data-folder');
+                        const images = JSON.parse(placeholder.getAttribute('data-images'));
+                        const title = placeholder.getAttribute('data-title');
+                        
+                        // Рендерим полноценный DOM-блок вместо плейсхолдера
+                        renderFolderBlock(placeholder, folderNum, images, title);
+                        observer.unobserve(placeholder); // Перестаем следить
+                    }
+                });
+            }, { rootMargin: '200px 0px' });
+
             async function loadAllFolders() {
                 try {
                     const response = await fetch('./gallery.json');
@@ -1052,6 +1092,7 @@
                     for (const folderNum of sortedFolders) {
                         const currentTitle = customTitles[folderNum] ? customTitles[folderNum] : `Folder #${folderNum}`;
                         
+                        // Шаг 1: Заполняем массив для сквозного лайтбокса моментально
                         data[folderNum].forEach(img => {
                             globalImages.push({
                                 src: `${folderNum}/${img}`,
@@ -1060,7 +1101,15 @@
                             });
                         });
 
-                        createFolderBlock(folderNum, data[folderNum], currentTitle);
+                        // Шаг 2: Создаем легкий плейсхолдер для Observer
+                        const placeholder = document.createElement('div');
+                        placeholder.className = 'folder-placeholder';
+                        placeholder.setAttribute('data-folder', folderNum);
+                        placeholder.setAttribute('data-title', currentTitle);
+                        placeholder.setAttribute('data-images', JSON.stringify(data[folderNum]));
+                        
+                        gallery.appendChild(placeholder);
+                        folderObserver.observe(placeholder);
                     }
                 } catch (error) {
                     console.error("Error loading gallery:", error);
@@ -1068,7 +1117,7 @@
                 }
             }
 
-            function createFolderBlock(folderNum, images, folderTitle) {
+            function renderFolderBlock(placeholder, folderNum, images, folderTitle) {
                 const row = document.createElement('div');
                 row.className = 'folder-row';
                 
@@ -1106,11 +1155,13 @@
                 const imgModified = document.createElement('img');
                 imgModified.className = 'img-modified';
 
-                const originalSrc = `${folderNum}/${images[0]}`;
-                let activeSrc = `${folderNum}/${images[1]}`; 
+                // Подмена путей для превью и лайтбокса
+                const origPaths = toWebpPath(folderNum, images[0]);
+                let activeOrigImgPath = `${folderNum}/${images[1]}`; // Для лайтбокса
+                let activeWebpPaths = toWebpPath(folderNum, images[1]); // Для слайдера
 
-                imgOriginal.src = originalSrc;
-                imgModified.src = activeSrc; 
+                imgOriginal.src = origPaths.preview;
+                imgModified.src = activeWebpPaths.preview; 
 
                 let startPos = 50;
                 if (window.innerWidth > 1000) {
@@ -1144,17 +1195,17 @@
                         toggleCheckbox.checked = false;
                         sliderLine.style.display = 'none';
                         imgModified.style.display = 'none';
-                        imgOriginal.src = originalSrc;
+                        imgOriginal.src = origPaths.preview;
                     } else {
                         if (toggleCheckbox.checked) {
                             sliderLine.style.display = 'block';
                             imgModified.style.display = 'block';
-                            imgOriginal.src = originalSrc;
-                            imgModified.src = activeSrc;
+                            imgOriginal.src = origPaths.preview;
+                            imgModified.src = activeWebpPaths.preview;
                         } else {
                             sliderLine.style.display = 'none';
                             imgModified.style.display = 'none';
-                            imgOriginal.src = activeSrc;
+                            imgOriginal.src = activeWebpPaths.preview;
                         }
                     }
                 }
@@ -1192,6 +1243,7 @@
                 sliderHandle.addEventListener('pointerup', stopDrag);
                 sliderHandle.addEventListener('pointercancel', stopDrag);
 
+                // Оставляем твой кастомный клик по Wrapper (тогглит compare mode)
                 sliderWrapper.addEventListener('click', (e) => {
                     if (e.target.closest('.slider-handle')) return;
                     
@@ -1244,8 +1296,10 @@
                     label.innerHTML = `<span class="${badgeClass}">${badgeText}</span>`;
                     
                     const thumbImg = document.createElement('img');
-                    const imgPath = `${folderNum}/${images[i]}`;
-                    thumbImg.src = imgPath;
+                    
+                    // Используем сверхлегкие WEBP миниатюры
+                    const paths = toWebpPath(folderNum, images[i]);
+                    thumbImg.src = paths.thumb; 
                     
                     const zoomHint = document.createElement('div');
                     zoomHint.className = 'zoom-hint';
@@ -1256,7 +1310,8 @@
 
                     zoomHint.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        openLightbox(imgPath);
+                        // Лайтбокс всегда открывает тяжелый оригинал
+                        openLightbox(`${folderNum}/${images[i]}`);
                     });
 
                     thumbCard.addEventListener('click', (e) => {
@@ -1273,7 +1328,10 @@
                             triggerToggleGlow();
                             updateDisplayMode();
                         } else {
-                            activeSrc = imgPath;
+                            // Подменяем стейт на нужную WEBP-версию и сохраняем оригинальный путь для лайтбокса
+                            activeOrigImgPath = `${folderNum}/${images[i]}`;
+                            activeWebpPaths = toWebpPath(folderNum, images[i]);
+                            
                             if (!isCurrentlyActive) {
                                 toggleCheckbox.checked = false;
                             } else {
@@ -1285,7 +1343,9 @@
                     });
                 }
 
-                gallery.appendChild(row);
+                // Заменяем плейсхолдер готовой разметкой
+                placeholder.className = ""; 
+                placeholder.appendChild(row);
             }
 
             loadAllFolders();
