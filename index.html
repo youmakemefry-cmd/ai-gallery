@@ -974,7 +974,8 @@
 
             // Вспомогательная функция замены расширения для путей к кэшу webp
             function toWebpPath(folder, filename) {
-                const base = filename.substring(0, filename.lastIndexOf('.'));
+                const lastDotIndex = filename.lastIndexOf('.');
+                const base = lastDotIndex !== -1 ? filename.substring(0, lastDotIndex) : filename;
                 return {
                     preview: `_previews/${folder}/${base}.webp`,
                     thumb: `_thumbs/${folder}/${base}.webp`
@@ -1058,9 +1059,8 @@
                         const images = JSON.parse(placeholder.getAttribute('data-images'));
                         const title = placeholder.getAttribute('data-title');
                         
-                        // Рендерим полноценный DOM-блок вместо плейсхолдера
                         renderFolderBlock(placeholder, folderNum, images, title);
-                        observer.unobserve(placeholder); // Перестаем следить
+                        observer.unobserve(placeholder); 
                     }
                 });
             }, { rootMargin: '200px 0px' });
@@ -1086,13 +1086,15 @@
                             const ratingA = partsA.length > 1 ? parseInt(partsA[1], 10) : 0;
                             const ratingB = partsB.length > 1 ? parseInt(partsB[1], 10) : 0;
                             
-                            return ratingA - ratingB;
+                            const validRatingA = isNaN(ratingA) ? 0 : ratingA;
+                            const validRatingB = isNaN(ratingB) ? 0 : ratingB;
+                            
+                            return validRatingA - validRatingB;
                         });
                     
                     for (const folderNum of sortedFolders) {
                         const currentTitle = customTitles[folderNum] ? customTitles[folderNum] : `Folder #${folderNum}`;
                         
-                        // Шаг 1: Заполняем массив для сквозного лайтбокса моментально
                         data[folderNum].forEach(img => {
                             globalImages.push({
                                 src: `${folderNum}/${img}`,
@@ -1101,7 +1103,6 @@
                             });
                         });
 
-                        // Шаг 2: Создаем легкий плейсхолдер для Observer
                         const placeholder = document.createElement('div');
                         placeholder.className = 'folder-placeholder';
                         placeholder.setAttribute('data-folder', folderNum);
@@ -1155,13 +1156,18 @@
                 const imgModified = document.createElement('img');
                 imgModified.className = 'img-modified';
 
-                // Подмена путей для превью и лайтбокса
-                const origPaths = toWebpPath(folderNum, images[0]);
-                let activeOrigImgPath = `${folderNum}/${images[1]}`; // Для лайтбокса
-                let activeWebpPaths = toWebpPath(folderNum, images[1]); // Для слайдера
+                const originalSrc = `${folderNum}/${images[0]}`;
+                let activeSrc = `${folderNum}/${images[1]}`; 
 
+                const origPaths = toWebpPath(folderNum, images[0]);
+                let activeWebpPaths = toWebpPath(folderNum, images[1]); 
+
+                // --- ФОЛЛБЭК ДЛЯ СЛАЙДЕРА ---
                 imgOriginal.src = origPaths.preview;
-                imgModified.src = activeWebpPaths.preview; 
+                imgOriginal.onerror = () => { imgOriginal.src = originalSrc; };
+
+                imgModified.src = activeWebpPaths.preview;
+                imgModified.onerror = () => { imgModified.src = activeSrc; };
 
                 let startPos = 50;
                 if (window.innerWidth > 1000) {
@@ -1243,7 +1249,6 @@
                 sliderHandle.addEventListener('pointerup', stopDrag);
                 sliderHandle.addEventListener('pointercancel', stopDrag);
 
-                // Оставляем твой кастомный клик по Wrapper (тогглит compare mode)
                 sliderWrapper.addEventListener('click', (e) => {
                     if (e.target.closest('.slider-handle')) return;
                     
@@ -1296,10 +1301,12 @@
                     label.innerHTML = `<span class="${badgeClass}">${badgeText}</span>`;
                     
                     const thumbImg = document.createElement('img');
-                    
-                    // Используем сверхлегкие WEBP миниатюры
+                    const fullOriginalPath = `${folderNum}/${images[i]}`;
                     const paths = toWebpPath(folderNum, images[i]);
+                    
+                    // --- ФОЛЛБЭК ДЛЯ МИНИАТЮР ---
                     thumbImg.src = paths.thumb; 
+                    thumbImg.onerror = () => { thumbImg.src = fullOriginalPath; };
                     
                     const zoomHint = document.createElement('div');
                     zoomHint.className = 'zoom-hint';
@@ -1311,7 +1318,7 @@
                     zoomHint.addEventListener('click', (e) => {
                         e.stopPropagation();
                         // Лайтбокс всегда открывает тяжелый оригинал
-                        openLightbox(`${folderNum}/${images[i]}`);
+                        openLightbox(fullOriginalPath);
                     });
 
                     thumbCard.addEventListener('click', (e) => {
@@ -1328,8 +1335,7 @@
                             triggerToggleGlow();
                             updateDisplayMode();
                         } else {
-                            // Подменяем стейт на нужную WEBP-версию и сохраняем оригинальный путь для лайтбокса
-                            activeOrigImgPath = `${folderNum}/${images[i]}`;
+                            activeSrc = fullOriginalPath;
                             activeWebpPaths = toWebpPath(folderNum, images[i]);
                             
                             if (!isCurrentlyActive) {
@@ -1343,7 +1349,6 @@
                     });
                 }
 
-                // Заменяем плейсхолдер готовой разметкой
                 placeholder.className = ""; 
                 placeholder.appendChild(row);
             }
