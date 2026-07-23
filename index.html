@@ -183,7 +183,7 @@
         }
 
         /* ==========================================================================
-           ОСНОВНОЙ КОНТЕЙНЕР ГАЛЕРЕИ И SKELETON LOADERS (Pillar 1)
+           ОСНОВНОЙ КОНТЕЙНЕР ГАЛЕРЕИ И SKELETON LOADERS
            ========================================================================== */
         .gallery-container {
             display: flex;
@@ -264,52 +264,12 @@
         }
 
         /* ==========================================================================
-           PAGINATION / LOAD MORE BUTTON (Pillar 3)
+           INFINITE SCROLL TRIGGER
            ========================================================================== */
-        .pagination-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px 0 40px 0;
+        #scroll-trigger {
             width: 100%;
-        }
-
-        .load-more-btn {
-            background: rgba(124, 58, 237, 0.1);
-            border: 2px solid var(--accent);
-            color: var(--text-main);
-            padding: 14px 40px;
-            border-radius: 30px;
-            font-size: 1.1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2);
-        }
-
-        .load-more-btn:hover {
-            background: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
-        }
-
-        .load-more-btn:active {
-            transform: translateY(0);
-        }
-
-        .load-more-btn svg {
-            width: 20px;
             height: 20px;
-            transition: transform 0.3s ease;
-        }
-
-        .load-more-btn:hover svg {
-            transform: translateY(3px);
+            margin-bottom: 40px;
         }
 
         /* ==========================================================================
@@ -947,7 +907,6 @@
         
         <div class="lb-close" id="lb-close">&times;</div>
         <div class="lb-nav lb-prev" id="lb-prev">&lsaquo;</div>
-        <!-- Lightbox всегда рендерит тяжелый Full HD оригинал -->
         <img id="lightbox-img" src="" alt="Full size view">
         <div class="lb-nav lb-next" id="lb-next">&rsaquo;</div>
 
@@ -960,15 +919,8 @@
     <!-- Основной контейнер галереи -->
     <main class="gallery-container" id="gallery"></main>
 
-    <!-- Pillar 3: Pagination / Кнопка Load More -->
-    <div class="pagination-container" id="pagination-container" style="display: none;">
-        <button class="load-more-btn" id="load-more-btn">
-            Load More
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="6 9 12 15 18 9"></polyline>
-            </svg>
-        </button>
-    </div>
+    <!-- Невидимый триггер для бесконечного скролла -->
+    <div id="scroll-trigger"></div>
 
     <footer class="site-footer">
         <div class="footer-content">
@@ -986,34 +938,28 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            // ==========================================================================
-            // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И НАСТРОЙКИ (Pillar 1 & 3)
-            // ==========================================================================
             const gallery = document.getElementById('gallery');
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
             const lbTitle = document.getElementById('lb-title');
             const lbFilename = document.getElementById('lb-filename');
-            const paginationContainer = document.getElementById('pagination-container');
-            const loadMoreBtn = document.getElementById('load-more-btn');
+            const scrollTrigger = document.getElementById('scroll-trigger');
             
-            let globalImages = []; // Хранит ПУТИ К ОРИГИНАЛАМ для лайтбокса
+            let globalImages = []; 
             let currentLbIndex = -1;
 
-            // Настройки пагинации
             const INITIAL_LOAD_COUNT = 3; 
-            const CHUNK_SIZE = 10;
+            const CHUNK_SIZE = 5; // Снижено для более плавной подгрузки при скролле
             
-            let allFolderKeys = []; // Хранит отсортированные ключи (названия папок)
-            let globalDataObj = {}; // Кэш данных из JSON
+            let allFolderKeys = []; 
+            let globalDataObj = {}; 
             let customTitlesObj = {}; 
-            let currentRenderIndex = 0; // Индекс последней отрендеренной папки
+            let currentRenderIndex = 0; 
 
             // ==========================================================================
-            // ЛОГИКА LIGHTBOX (Не изменена, использует тяжелые оригиналы)
+            // ЛОГИКА LIGHTBOX 
             // ==========================================================================
             function openLightbox(src) {
-                // Ищем индекс по оригинальному пути
                 currentLbIndex = globalImages.findIndex(img => img.src === src);
                 if (currentLbIndex === -1) currentLbIndex = 0; 
                 updateLightboxImage();
@@ -1043,7 +989,6 @@
                 }
             }
 
-            // Обработчики событий лайтбокса
             document.getElementById('lb-close').addEventListener('click', () => lightbox.style.display = 'none');
             document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
             document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
@@ -1065,7 +1010,6 @@
                 }
             });
 
-            // Свайпы для мобилок
             let touchStartX = 0;
             let touchEndX = 0;
             lightbox.addEventListener('touchstart', e => {
@@ -1083,8 +1027,14 @@
             }
 
             // ==========================================================================
-            // PILLAR 1: INTERSECTION OBSERVER (Lazy Loading DOM & JS)
+            // INFINITE SCROLL И LAZY LOADING
             // ==========================================================================
+            const infiniteScrollObserver = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && currentRenderIndex < allFolderKeys.length) {
+                    loadNextChunk(CHUNK_SIZE);
+                }
+            }, { rootMargin: '600px 0px' }); 
+
             const lazyFolderObserver = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -1093,20 +1043,17 @@
                         const images = globalDataObj[folderNum];
                         const folderTitle = customTitlesObj[folderNum] || `Folder #${folderNum}`;
                         
-                        // Заменяем скелетон на полноценный интерактивный блок
                         renderFolderBlock(folderNum, images, folderTitle, skeleton);
-                        
-                        // Отписываемся, так как палка уже отрендерена
                         observer.unobserve(skeleton);
                     }
                 });
             }, { 
-                rootMargin: '400px 0px', // Начинаем рендерить блок, когда до него остается 400px прокрутки
+                rootMargin: '400px 0px', 
                 threshold: 0.01
             });
 
             // ==========================================================================
-            // ЗАГРУЗКА И ПАГИНАЦИЯ (Pillar 3)
+            // ЗАГРУЗКА И ПАГИНАЦИЯ
             // ==========================================================================
             async function loadAllFoldersData() {
                 try {
@@ -1117,7 +1064,6 @@
                     customTitlesObj = data._titles || {};
                     globalDataObj = data;
                     
-                    // Сортировка (оригинальная логика)
                     allFolderKeys = Object.keys(data)
                         .filter(key => key !== '_titles')
                         .sort((a, b) => {
@@ -1134,20 +1080,19 @@
                             return ratingA - ratingB;
                         });
                     
-                    // Предварительно заполняем массив лайтбокса ОРИГИНАЛЬНЫМИ путями
                     allFolderKeys.forEach(folderNum => {
                         const currentTitle = customTitlesObj[folderNum] ? customTitlesObj[folderNum] : `Folder #${folderNum}`;
                         data[folderNum].forEach(img => {
                             globalImages.push({
-                                src: `${folderNum}/${img}`, // Тяжелый оригинал для фуллскрина
+                                src: `${folderNum}/${img}`, 
                                 folderTitle: currentTitle,
                                 fileName: img
                             });
                         });
                     });
 
-                    // Загружаем первую порцию (INITIAL_LOAD_COUNT)
                     loadNextChunk(INITIAL_LOAD_COUNT);
+                    infiniteScrollObserver.observe(scrollTrigger);
                     
                 } catch (error) {
                     console.error("Error loading gallery:", error);
@@ -1162,12 +1107,10 @@
                 for (let i = start; i < end; i++) {
                     const folderNum = allFolderKeys[i];
                     
-                    // 1. Создаем DOM-скелетон (Placeholder)
                     const skeletonNode = document.createElement('div');
                     skeletonNode.className = 'skeleton-block';
                     skeletonNode.dataset.folderId = folderNum;
                     
-                    // Внутренности скелетона для красивого визуала при ожидании
                     skeletonNode.innerHTML = `
                         <div class="skeleton-header-box">
                             <div class="skeleton-shimmer skeleton-title-shimmer"></div>
@@ -1182,27 +1125,17 @@
                     `;
                     
                     gallery.appendChild(skeletonNode);
-                    
-                    // 2. Отдаем скелетон Обзерверу (Pillar 1)
                     lazyFolderObserver.observe(skeletonNode);
                 }
                 
                 currentRenderIndex = end;
                 
-                // Управляем видимостью кнопки "Load More"
-                if (currentRenderIndex < allFolderKeys.length) {
-                    paginationContainer.style.display = 'flex';
-                } else {
-                    paginationContainer.style.display = 'none';
+                if (currentRenderIndex >= allFolderKeys.length) {
+                    infiniteScrollObserver.disconnect();
+                    scrollTrigger.style.display = 'none';
                 }
             }
 
-            // Обработчик пагинации (кнопка внизу)
-            loadMoreBtn.addEventListener('click', () => {
-                loadNextChunk(CHUNK_SIZE);
-            });
-
-            // Вспомогательная функция для замены расширений под Next-Gen формат (Pillar 2)
             function getWebpFileName(fileName) {
                 const lastDot = fileName.lastIndexOf('.');
                 if (lastDot === -1) return fileName + '.webp';
@@ -1210,13 +1143,12 @@
             }
 
             // ==========================================================================
-            // ЯДРО: ГЕНЕРАЦИЯ БЛОКА И ЛОГИКА COMPARE (Строго сохранена твоя логика)
+            // ГЕНЕРАЦИЯ БЛОКА И ЛОГИКА COMPARE
             // ==========================================================================
             function renderFolderBlock(folderNum, images, folderTitle, skeletonNode) {
                 const row = document.createElement('div');
                 row.className = 'folder-row';
                 
-                // --- HEADER SECTION ---
                 const header = document.createElement('div');
                 header.className = 'folder-header';
                 
@@ -1242,21 +1174,19 @@
                 header.append(titleWrapper, toggleLabel);
                 row.appendChild(header);
 
-                // --- SLIDER SECTION (Pillar 2 - Используем WebP из _slider/) ---
                 const sliderWrapper = document.createElement('div');
                 sliderWrapper.className = 'slider-wrapper';
 
                 const imgOriginal = document.createElement('img');
                 imgOriginal.className = 'img-original';
-                imgOriginal.setAttribute('loading', 'lazy'); // Доп страховка
+                imgOriginal.setAttribute('loading', 'lazy'); 
                 
                 const imgModified = document.createElement('img');
                 imgModified.className = 'img-modified';
                 imgModified.setAttribute('loading', 'lazy');
 
-                // Пути для слайдера (легкие ~1000px WebP)
-                const sliderOriginalSrc = `_slider/${folderNum}/${getWebpFileName(images[0])}`;
-                let sliderActiveSrc = `_slider/${folderNum}/${getWebpFileName(images[1])}`; 
+                const sliderOriginalSrc = `slider/${folderNum}/${getWebpFileName(images[0])}`;
+                let sliderActiveSrc = `slider/${folderNum}/${getWebpFileName(images[1])}`; 
 
                 imgOriginal.src = sliderOriginalSrc;
                 imgModified.src = sliderActiveSrc; 
@@ -1308,7 +1238,6 @@
                     }
                 }
 
-                // Логика перемещения ползунка
                 let isDragging = false;
 
                 sliderHandle.addEventListener('pointerdown', (e) => {
@@ -1342,7 +1271,6 @@
                 sliderHandle.addEventListener('pointerup', stopDrag);
                 sliderHandle.addEventListener('pointercancel', stopDrag);
 
-                // Клик по обертке переключает чекбокс
                 sliderWrapper.addEventListener('click', (e) => {
                     if (e.target.closest('.slider-handle')) return;
                     
@@ -1372,7 +1300,6 @@
                 sliderWrapper.append(imgOriginal, imgModified, sliderLine);
                 row.appendChild(sliderWrapper);
 
-                // --- THUMBNAILS SECTION (Pillar 2 - Используем WebP из _thumbs/) ---
                 const thumbWrapper = document.createElement('div');
                 thumbWrapper.className = 'thumbnails-wrapper';
 
@@ -1395,13 +1322,11 @@
                     
                     label.innerHTML = `<span class="${badgeClass}">${badgeText}</span>`;
                     
-                    // Путь для миниатюрки (ультралегкий 250px WebP)
                     const thumbImg = document.createElement('img');
                     thumbImg.setAttribute('loading', 'lazy');
-                    const thumbWebpSrc = `_thumbs/${folderNum}/${getWebpFileName(images[i])}`;
+                    const thumbWebpSrc = `thumbs/${folderNum}/${getWebpFileName(images[i])}`;
                     thumbImg.src = thumbWebpSrc;
                     
-                    // Тяжелый путь для лайтбокса
                     const heavyOriginalPath = `${folderNum}/${images[i]}`;
                     
                     const zoomHint = document.createElement('div');
@@ -1413,7 +1338,6 @@
 
                     zoomHint.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        // В лайтбокс всегда кидаем тяжелый оригинал
                         openLightbox(heavyOriginalPath);
                     });
 
@@ -1431,8 +1355,7 @@
                             triggerToggleGlow();
                             updateDisplayMode();
                         } else {
-                            // Обновляем активный слайдер-ресурс (на легкий WebP)
-                            sliderActiveSrc = `_slider/${folderNum}/${getWebpFileName(images[i])}`;
+                            sliderActiveSrc = `slider/${folderNum}/${getWebpFileName(images[i])}`;
                             if (!isCurrentlyActive) {
                                 toggleCheckbox.checked = false;
                             } else {
@@ -1444,11 +1367,9 @@
                     });
                 }
 
-                // Заменяем DOM-скелетон на готовую полку
                 skeletonNode.replaceWith(row);
             }
 
-            // Старт цепочки загрузки
             loadAllFoldersData();
         });
     </script>
