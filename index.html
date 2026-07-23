@@ -2,137 +2,56 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="description" content="DualVisor AI Gallery Enhanced - High Performance Image Comparison Architecture">
     <title>DualVisor AI Gallery Enhanced</title>
     <style>
         /* ==========================================================================
            NORMALIZE.CSS (v8.0.1) - Обеспечивает кроссбраузерную консистентность
            ========================================================================== */
         html {
-          line-height: 1.15;
-          -webkit-text-size-adjust: 100%;
+            line-height: 1.15;
+            -webkit-text-size-adjust: 100%;
+            scroll-behavior: smooth;
         }
         body {
-          margin: 0;
+            margin: 0;
+            padding: 0;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
-        main {
-          display: block;
-        }
-        h1 {
-          font-size: 2em;
-          margin: 0.67em 0;
-        }
-        hr {
-          box-sizing: content-box;
-          height: 0;
-          overflow: visible;
-        }
-        pre {
-          font-family: monospace, monospace;
-          font-size: 1em;
-        }
-        a {
-          background-color: transparent;
-        }
-        abbr[title] {
-          border-bottom: none;
-          text-decoration: underline;
-          text-decoration: underline dotted;
-        }
-        b, strong {
-          font-weight: bolder;
-        }
-        code, kbd, samp {
-          font-family: monospace, monospace;
-          font-size: 1em;
-        }
-        small {
-          font-size: 80%;
-        }
-        sub, sup {
-          font-size: 75%;
-          line-height: 0;
-          position: relative;
-          vertical-align: baseline;
-        }
-        sub {
-          bottom: -0.25em;
-        }
-        sup {
-          top: -0.5em;
-        }
-        img {
-          border-style: none;
-        }
-        button, input, optgroup, select, textarea {
-          font-family: inherit;
-          font-size: 100%;
-          line-height: 1.15;
-          margin: 0;
-        }
-        button, input {
-          overflow: visible;
-        }
-        button, select {
-          text-transform: none;
-        }
-        button, [type="button"], [type="reset"], [type="submit"] {
-          -webkit-appearance: button;
-        }
-        button::-moz-focus-inner, [type="button"]::-webkit-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner {
-          border-style: none;
-          padding: 0;
-        }
-        button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focusring, [type="submit"]:-moz-focusring {
-          outline: 1px dotted ButtonText;
-        }
-        fieldset {
-          padding: 0.35em 0.75em 0.625em;
-        }
-        legend {
-          box-sizing: border-box;
-          color: inherit;
-          display: table;
-          max-width: 100%;
-          padding: 0;
-          white-space: normal;
-        }
-        progress {
-          vertical-align: baseline;
-        }
-        textarea {
-          overflow: auto;
-        }
-        [type="checkbox"], [type="radio"] {
-          box-sizing: border-box;
-          padding: 0;
-        }
-        [type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button {
-          height: auto;
-        }
-        [type="search"] {
-          -webkit-appearance: textfield;
-          outline-offset: -2px;
-        }
-        [type="search"]::-webkit-search-decoration {
-          -webkit-appearance: none;
-        }
-        ::-webkit-file-upload-button {
-          -webkit-appearance: button;
-          font: inherit;
-        }
-        details {
-          display: block;
-        }
-        summary {
-          display: list-item;
-        }
-        template {
-          display: none;
-        }
-        [hidden] {
-          display: none;
-        }
+        main { display: block; }
+        h1 { font-size: 2em; margin: 0.67em 0; }
+        hr { box-sizing: content-box; height: 0; overflow: visible; }
+        pre { font-family: monospace, monospace; font-size: 1em; }
+        a { background-color: transparent; }
+        abbr[title] { border-bottom: none; text-decoration: underline; text-decoration: underline dotted; }
+        b, strong { font-weight: bolder; }
+        code, kbd, samp { font-family: monospace, monospace; font-size: 1em; }
+        small { font-size: 80%; }
+        sub, sup { font-size: 75%; line-height: 0; position: relative; vertical-align: baseline; }
+        sub { bottom: -0.25em; }
+        sup { top: -0.5em; }
+        img { border-style: none; }
+        button, input, optgroup, select, textarea { font-family: inherit; font-size: 100%; line-height: 1.15; margin: 0; }
+        button, input { overflow: visible; }
+        button, select { text-transform: none; }
+        button, [type="button"], [type="reset"], [type="submit"] { -webkit-appearance: button; }
+        button::-moz-focus-inner, [type="button"]::-webkit-focus-inner, [type="reset"]::-moz-focus-inner, [type="submit"]::-moz-focus-inner { border-style: none; padding: 0; }
+        button:-moz-focusring, [type="button"]:-moz-focusring, [type="reset"]:-moz-focusring, [type="submit"]:-moz-focusring { outline: 1px dotted ButtonText; }
+        fieldset { padding: 0.35em 0.75em 0.625em; }
+        legend { box-sizing: border-box; color: inherit; display: table; max-width: 100%; padding: 0; white-space: normal; }
+        progress { vertical-align: baseline; }
+        textarea { overflow: auto; }
+        [type="checkbox"], [type="radio"] { box-sizing: border-box; padding: 0; }
+        [type="number"]::-webkit-inner-spin-button, [type="number"]::-webkit-outer-spin-button { height: auto; }
+        [type="search"] { -webkit-appearance: textfield; outline-offset: -2px; }
+        [type="search"]::-webkit-search-decoration { -webkit-appearance: none; }
+        ::-webkit-file-upload-button { -webkit-appearance: button; font: inherit; }
+        details { display: block; }
+        summary { display: list-item; }
+        template { display: none; }
+        [hidden] { display: none; }
 
         /* ==========================================================================
            ДИЗАЙН-СИСТЕМА И ОСНОВНОЙ КАРКАС
@@ -150,6 +69,8 @@
             --radius-sm: 8px;
             --easing: cubic-bezier(0.4, 0, 0.2, 1);
             --transition: all 0.3s var(--easing);
+            --skeleton-base: #1a1a24;
+            --skeleton-shine: #2a2a35;
         }
 
         body {
@@ -240,12 +161,6 @@
             gap: 18px;             
         }
 
-        @media (max-width: 600px) {
-            .header-nav {
-                gap: 10px !important;
-            }
-        }
-
         .header-nav a {
             color: var(--text-muted);
             text-decoration: none;
@@ -268,7 +183,7 @@
         }
 
         /* ==========================================================================
-           ОСНОВНОЙ КОНТЕЙНЕР ГАЛЕРЕИ
+           ОСНОВНОЙ КОНТЕЙНЕР ГАЛЕРЕИ И SKELETON LOADERS (Pillar 1)
            ========================================================================== */
         .gallery-container {
             display: flex;
@@ -280,6 +195,121 @@
             flex: 1; 
             width: 100%;
             box-sizing: border-box;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -1000px 0; }
+            100% { background-position: 1000px 0; }
+        }
+
+        .skeleton-block {
+            background-color: var(--card-bg);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            align-items: stretch;
+            min-width: 0;
+            border: 1px solid rgba(255, 255, 255, 0.02);
+            opacity: 0.7;
+        }
+
+        .skeleton-header-box {
+            grid-column: 1 / -1;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            padding-bottom: 15px;
+            margin: 0;
+        }
+
+        .skeleton-shimmer {
+            background: linear-gradient(90deg, var(--skeleton-base) 25%, var(--skeleton-shine) 50%, var(--skeleton-base) 75%);
+            background-size: 1000px 100%;
+            animation: shimmer 2s infinite linear;
+            border-radius: var(--radius-sm);
+        }
+
+        .skeleton-title-shimmer {
+            width: 250px;
+            height: 28px;
+        }
+
+        .skeleton-toggle-shimmer {
+            width: 100px;
+            height: 24px;
+            border-radius: 20px;
+        }
+
+        .skeleton-slider-area {
+            width: 100%;
+            height: 60vh;
+            min-height: 400px;
+            border-radius: var(--radius-md);
+        }
+
+        .skeleton-thumbs-area {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .skeleton-thumb-item {
+            width: 100%;
+            height: 110px;
+            border-radius: var(--radius-md);
+        }
+
+        /* ==========================================================================
+           PAGINATION / LOAD MORE BUTTON (Pillar 3)
+           ========================================================================== */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px 0 40px 0;
+            width: 100%;
+        }
+
+        .load-more-btn {
+            background: rgba(124, 58, 237, 0.1);
+            border: 2px solid var(--accent);
+            color: var(--text-main);
+            padding: 14px 40px;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            box-shadow: 0 4px 15px rgba(124, 58, 237, 0.2);
+        }
+
+        .load-more-btn:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(124, 58, 237, 0.4);
+        }
+
+        .load-more-btn:active {
+            transform: translateY(0);
+        }
+
+        .load-more-btn svg {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s ease;
+        }
+
+        .load-more-btn:hover svg {
+            transform: translateY(3px);
         }
 
         /* ==========================================================================
@@ -367,7 +397,6 @@
         .lb-prev { left: 10px; }
         .lb-next { right: 10px; }
 
-        /* Мобильная навигация внутри Lightbox */
         .lb-mobile-nav {
             display: none;
             position: absolute;
@@ -414,6 +443,17 @@
             align-items: stretch;
             min-width: 0;
             border: 1px solid rgba(255, 255, 255, 0.02);
+            /* Анимация плавного появления при lazy load */
+            animation: fadeInRow 0.6s ease forwards;
+            opacity: 0;
+            transform: translateY(10px);
+        }
+
+        @keyframes fadeInRow {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .folder-header {
@@ -653,19 +693,13 @@
             scrollbar-color: rgba(124, 58, 237, 0.3) transparent;
         }
 
-        .thumbnails-container::-webkit-scrollbar {
-            width: 6px;
-        }
-        .thumbnails-container::-webkit-scrollbar-track {
-            background: transparent;
-        }
+        .thumbnails-container::-webkit-scrollbar { width: 6px; }
+        .thumbnails-container::-webkit-scrollbar-track { background: transparent; }
         .thumbnails-container::-webkit-scrollbar-thumb {
             background: rgba(124, 58, 237, 0.3);
             border-radius: 4px;
         }
-        .thumbnails-container::-webkit-scrollbar-thumb:hover {
-            background: var(--accent);
-        }
+        .thumbnails-container::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
         .thumbnail-card {
             background: #191924;
@@ -721,9 +755,7 @@
             opacity: 0;
         }
         
-        .thumbnail-card:hover .zoom-hint {
-            opacity: 1;
-        }
+        .thumbnail-card:hover .zoom-hint { opacity: 1; }
 
         .thumbnail-label {
             flex: 0 0 auto;
@@ -760,7 +792,7 @@
             text-align: center;
             color: var(--text-muted);
             font-size: 0.9rem;
-            margin-top: 40px;
+            margin-top: auto; 
         }
         
         .footer-content {
@@ -770,9 +802,7 @@
             gap: 15px;
         }
         
-        .footer-content span.copyright {
-            white-space: nowrap;
-        }
+        .footer-content span.copyright { white-space: nowrap; }
         
         .footer-icon {
             color: var(--text-muted);
@@ -796,15 +826,10 @@
            МЕДИАЗАПРОСЫ И МОБИЛЬНАЯ ОПТИМИЗАЦИЯ
            ========================================================================== */
         @media (max-width: 1000px) {
-            .glass-header {
-                padding: 12px 15px;
-            }
-            .nav-brand {
-                font-size: 1.1rem;
-            }
-            .header-nav {
-                gap: 15px;
-            }
+            .glass-header { padding: 12px 15px; }
+            .nav-brand { font-size: 1.1rem; }
+            .header-nav { gap: 15px; }
+            .header-nav a { font-size: 0.85rem; }
             
             .gallery-container {
                 gap: 20px;
@@ -815,17 +840,19 @@
             .folder-title { font-size: 0.95rem; }
             .image-count { display: none; }
 
-            .folder-row {
+            .folder-row, .skeleton-block {
                 grid-template-columns: 1fr;
                 padding: 16px;
                 gap: 20px;
                 box-sizing: border-box;
             }
 
-            .slider-wrapper { width: 100%; min-width: 0; }
+            .slider-wrapper, .skeleton-slider-area { width: 100%; min-width: 0; min-height: 250px; }
             .thumbnails-wrapper { height: 160px; min-height: auto; width: 100%; min-width: 0; }
+            
+            .skeleton-thumbs-area { flex-direction: row; height: 160px; overflow: hidden; }
+            .skeleton-thumb-item { width: 130px; height: 125px; flex: 0 0 auto; }
 
-            /* Принудительно ПОСТОЯННО видимая полоса прокрутки на мобильных устройствах */
             .thumbnails-container {
                 position: relative;
                 flex-direction: row;
@@ -843,13 +870,13 @@
             }
             
             .thumbnails-container::-webkit-scrollbar-track {
-                background: #060609 !important; /* Глубокий темный фон, предотвращающий скрытие скроллбара ОС */
+                background: #060609 !important;
                 border-radius: 10px;
                 border: 1px solid rgba(255, 255, 255, 0.03);
             }
             
             .thumbnails-container::-webkit-scrollbar-thumb {
-                background: var(--accent-cyan) !important; /* Яркий неоновый ползунок виден постоянно */
+                background: var(--accent-cyan) !important;
                 border-radius: 10px;
                 box-shadow: 0 0 4px var(--accent-glow);
             }
@@ -862,7 +889,6 @@
             }
             .thumbnail-card img { width: 100%; height: 75px; flex: none; }
             
-            /* Исправленная лупа: скругленный квадрат, идеальное позиционирование по центру */
             .zoom-hint { 
                 bottom: 10px; 
                 right: 10px; 
@@ -871,7 +897,7 @@
                 opacity: 1; 
                 background: rgba(20, 20, 28, 0.95);
                 border: 1px solid rgba(255, 255, 255, 0.15);
-                border-radius: var(--radius-sm); /* Приведение к единому стилю сайта */
+                border-radius: var(--radius-sm); 
                 box-shadow: 0 4px 10px rgba(0,0,0,0.4);
                 display: flex !important;
                 justify-content: center !important;
@@ -881,7 +907,7 @@
             .zoom-hint svg { 
                 width: 15px !important; 
                 height: 15px !important; 
-                margin: 0 !important; /* Убирает любые смещения иконки */
+                margin: 0 !important; 
                 display: block;
             }
 
@@ -921,6 +947,7 @@
         
         <div class="lb-close" id="lb-close">&times;</div>
         <div class="lb-nav lb-prev" id="lb-prev">&lsaquo;</div>
+        <!-- Lightbox всегда рендерит тяжелый Full HD оригинал -->
         <img id="lightbox-img" src="" alt="Full size view">
         <div class="lb-nav lb-next" id="lb-next">&rsaquo;</div>
 
@@ -930,7 +957,18 @@
         </div>
     </div>
 
+    <!-- Основной контейнер галереи -->
     <main class="gallery-container" id="gallery"></main>
+
+    <!-- Pillar 3: Pagination / Кнопка Load More -->
+    <div class="pagination-container" id="pagination-container" style="display: none;">
+        <button class="load-more-btn" id="load-more-btn">
+            Load More
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </button>
+    </div>
 
     <footer class="site-footer">
         <div class="footer-content">
@@ -948,16 +986,34 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
+            // ==========================================================================
+            // ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ И НАСТРОЙКИ (Pillar 1 & 3)
+            // ==========================================================================
             const gallery = document.getElementById('gallery');
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
             const lbTitle = document.getElementById('lb-title');
             const lbFilename = document.getElementById('lb-filename');
+            const paginationContainer = document.getElementById('pagination-container');
+            const loadMoreBtn = document.getElementById('load-more-btn');
             
-            let globalImages = [];
+            let globalImages = []; // Хранит ПУТИ К ОРИГИНАЛАМ для лайтбокса
             let currentLbIndex = -1;
 
+            // Настройки пагинации
+            const INITIAL_LOAD_COUNT = 3; 
+            const CHUNK_SIZE = 10;
+            
+            let allFolderKeys = []; // Хранит отсортированные ключи (названия папок)
+            let globalDataObj = {}; // Кэш данных из JSON
+            let customTitlesObj = {}; 
+            let currentRenderIndex = 0; // Индекс последней отрендеренной папки
+
+            // ==========================================================================
+            // ЛОГИКА LIGHTBOX (Не изменена, использует тяжелые оригиналы)
+            // ==========================================================================
             function openLightbox(src) {
+                // Ищем индекс по оригинальному пути
                 currentLbIndex = globalImages.findIndex(img => img.src === src);
                 if (currentLbIndex === -1) currentLbIndex = 0; 
                 updateLightboxImage();
@@ -987,10 +1043,10 @@
                 }
             }
 
+            // Обработчики событий лайтбокса
             document.getElementById('lb-close').addEventListener('click', () => lightbox.style.display = 'none');
             document.getElementById('lb-prev').addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
             document.getElementById('lb-next').addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
-            
             document.getElementById('lb-mobile-prev').addEventListener('click', (e) => { e.stopPropagation(); prevImage(); });
             document.getElementById('lb-mobile-next').addEventListener('click', (e) => { e.stopPropagation(); nextImage(); });
 
@@ -1009,6 +1065,7 @@
                 }
             });
 
+            // Свайпы для мобилок
             let touchStartX = 0;
             let touchEndX = 0;
             lightbox.addEventListener('touchstart', e => {
@@ -1025,15 +1082,43 @@
                 if (touchEndX > touchStartX + threshold) prevImage();
             }
 
-            async function loadAllFolders() {
+            // ==========================================================================
+            // PILLAR 1: INTERSECTION OBSERVER (Lazy Loading DOM & JS)
+            // ==========================================================================
+            const lazyFolderObserver = new IntersectionObserver((entries, observer) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const skeleton = entry.target;
+                        const folderNum = skeleton.dataset.folderId;
+                        const images = globalDataObj[folderNum];
+                        const folderTitle = customTitlesObj[folderNum] || `Folder #${folderNum}`;
+                        
+                        // Заменяем скелетон на полноценный интерактивный блок
+                        renderFolderBlock(folderNum, images, folderTitle, skeleton);
+                        
+                        // Отписываемся, так как палка уже отрендерена
+                        observer.unobserve(skeleton);
+                    }
+                });
+            }, { 
+                rootMargin: '400px 0px', // Начинаем рендерить блок, когда до него остается 400px прокрутки
+                threshold: 0.01
+            });
+
+            // ==========================================================================
+            // ЗАГРУЗКА И ПАГИНАЦИЯ (Pillar 3)
+            // ==========================================================================
+            async function loadAllFoldersData() {
                 try {
                     const response = await fetch('./gallery.json');
                     if (!response.ok) throw new Error('Cannot load gallery.json');
                     const data = await response.json();
                     
-                    const customTitles = data._titles || {};
+                    customTitlesObj = data._titles || {};
+                    globalDataObj = data;
                     
-                    const sortedFolders = Object.keys(data)
+                    // Сортировка (оригинальная логика)
+                    allFolderKeys = Object.keys(data)
                         .filter(key => key !== '_titles')
                         .sort((a, b) => {
                             const partsA = a.split('-');
@@ -1049,29 +1134,89 @@
                             return ratingA - ratingB;
                         });
                     
-                    for (const folderNum of sortedFolders) {
-                        const currentTitle = customTitles[folderNum] ? customTitles[folderNum] : `Folder #${folderNum}`;
-                        
+                    // Предварительно заполняем массив лайтбокса ОРИГИНАЛЬНЫМИ путями
+                    allFolderKeys.forEach(folderNum => {
+                        const currentTitle = customTitlesObj[folderNum] ? customTitlesObj[folderNum] : `Folder #${folderNum}`;
                         data[folderNum].forEach(img => {
                             globalImages.push({
-                                src: `${folderNum}/${img}`,
+                                src: `${folderNum}/${img}`, // Тяжелый оригинал для фуллскрина
                                 folderTitle: currentTitle,
                                 fileName: img
                             });
                         });
+                    });
 
-                        createFolderBlock(folderNum, data[folderNum], currentTitle);
-                    }
+                    // Загружаем первую порцию (INITIAL_LOAD_COUNT)
+                    loadNextChunk(INITIAL_LOAD_COUNT);
+                    
                 } catch (error) {
                     console.error("Error loading gallery:", error);
                     gallery.innerHTML = '<p style="text-align:center">Error loading gallery.json. Check network tab.</p>';
                 }
             }
 
-            function createFolderBlock(folderNum, images, folderTitle) {
+            function loadNextChunk(count) {
+                const start = currentRenderIndex;
+                const end = Math.min(start + count, allFolderKeys.length);
+                
+                for (let i = start; i < end; i++) {
+                    const folderNum = allFolderKeys[i];
+                    
+                    // 1. Создаем DOM-скелетон (Placeholder)
+                    const skeletonNode = document.createElement('div');
+                    skeletonNode.className = 'skeleton-block';
+                    skeletonNode.dataset.folderId = folderNum;
+                    
+                    // Внутренности скелетона для красивого визуала при ожидании
+                    skeletonNode.innerHTML = `
+                        <div class="skeleton-header-box">
+                            <div class="skeleton-shimmer skeleton-title-shimmer"></div>
+                            <div class="skeleton-shimmer skeleton-toggle-shimmer"></div>
+                        </div>
+                        <div class="skeleton-shimmer skeleton-slider-area"></div>
+                        <div class="skeleton-thumbs-area">
+                            <div class="skeleton-shimmer skeleton-thumb-item"></div>
+                            <div class="skeleton-shimmer skeleton-thumb-item"></div>
+                            <div class="skeleton-shimmer skeleton-thumb-item"></div>
+                        </div>
+                    `;
+                    
+                    gallery.appendChild(skeletonNode);
+                    
+                    // 2. Отдаем скелетон Обзерверу (Pillar 1)
+                    lazyFolderObserver.observe(skeletonNode);
+                }
+                
+                currentRenderIndex = end;
+                
+                // Управляем видимостью кнопки "Load More"
+                if (currentRenderIndex < allFolderKeys.length) {
+                    paginationContainer.style.display = 'flex';
+                } else {
+                    paginationContainer.style.display = 'none';
+                }
+            }
+
+            // Обработчик пагинации (кнопка внизу)
+            loadMoreBtn.addEventListener('click', () => {
+                loadNextChunk(CHUNK_SIZE);
+            });
+
+            // Вспомогательная функция для замены расширений под Next-Gen формат (Pillar 2)
+            function getWebpFileName(fileName) {
+                const lastDot = fileName.lastIndexOf('.');
+                if (lastDot === -1) return fileName + '.webp';
+                return fileName.substring(0, lastDot) + '.webp';
+            }
+
+            // ==========================================================================
+            // ЯДРО: ГЕНЕРАЦИЯ БЛОКА И ЛОГИКА COMPARE (Строго сохранена твоя логика)
+            // ==========================================================================
+            function renderFolderBlock(folderNum, images, folderTitle, skeletonNode) {
                 const row = document.createElement('div');
                 row.className = 'folder-row';
                 
+                // --- HEADER SECTION ---
                 const header = document.createElement('div');
                 header.className = 'folder-header';
                 
@@ -1097,20 +1242,24 @@
                 header.append(titleWrapper, toggleLabel);
                 row.appendChild(header);
 
+                // --- SLIDER SECTION (Pillar 2 - Используем WebP из _slider/) ---
                 const sliderWrapper = document.createElement('div');
                 sliderWrapper.className = 'slider-wrapper';
 
                 const imgOriginal = document.createElement('img');
                 imgOriginal.className = 'img-original';
+                imgOriginal.setAttribute('loading', 'lazy'); // Доп страховка
                 
                 const imgModified = document.createElement('img');
                 imgModified.className = 'img-modified';
+                imgModified.setAttribute('loading', 'lazy');
 
-                const originalSrc = `${folderNum}/${images[0]}`;
-                let activeSrc = `${folderNum}/${images[1]}`; 
+                // Пути для слайдера (легкие ~1000px WebP)
+                const sliderOriginalSrc = `_slider/${folderNum}/${getWebpFileName(images[0])}`;
+                let sliderActiveSrc = `_slider/${folderNum}/${getWebpFileName(images[1])}`; 
 
-                imgOriginal.src = originalSrc;
-                imgModified.src = activeSrc; 
+                imgOriginal.src = sliderOriginalSrc;
+                imgModified.src = sliderActiveSrc; 
 
                 let startPos = 50;
                 if (window.innerWidth > 1000) {
@@ -1144,21 +1293,22 @@
                         toggleCheckbox.checked = false;
                         sliderLine.style.display = 'none';
                         imgModified.style.display = 'none';
-                        imgOriginal.src = originalSrc;
+                        imgOriginal.src = sliderOriginalSrc;
                     } else {
                         if (toggleCheckbox.checked) {
                             sliderLine.style.display = 'block';
                             imgModified.style.display = 'block';
-                            imgOriginal.src = originalSrc;
-                            imgModified.src = activeSrc;
+                            imgOriginal.src = sliderOriginalSrc;
+                            imgModified.src = sliderActiveSrc;
                         } else {
                             sliderLine.style.display = 'none';
                             imgModified.style.display = 'none';
-                            imgOriginal.src = activeSrc;
+                            imgOriginal.src = sliderActiveSrc;
                         }
                     }
                 }
 
+                // Логика перемещения ползунка
                 let isDragging = false;
 
                 sliderHandle.addEventListener('pointerdown', (e) => {
@@ -1192,6 +1342,7 @@
                 sliderHandle.addEventListener('pointerup', stopDrag);
                 sliderHandle.addEventListener('pointercancel', stopDrag);
 
+                // Клик по обертке переключает чекбокс
                 sliderWrapper.addEventListener('click', (e) => {
                     if (e.target.closest('.slider-handle')) return;
                     
@@ -1221,6 +1372,7 @@
                 sliderWrapper.append(imgOriginal, imgModified, sliderLine);
                 row.appendChild(sliderWrapper);
 
+                // --- THUMBNAILS SECTION (Pillar 2 - Используем WebP из _thumbs/) ---
                 const thumbWrapper = document.createElement('div');
                 thumbWrapper.className = 'thumbnails-wrapper';
 
@@ -1243,9 +1395,14 @@
                     
                     label.innerHTML = `<span class="${badgeClass}">${badgeText}</span>`;
                     
+                    // Путь для миниатюрки (ультралегкий 250px WebP)
                     const thumbImg = document.createElement('img');
-                    const imgPath = `${folderNum}/${images[i]}`;
-                    thumbImg.src = imgPath;
+                    thumbImg.setAttribute('loading', 'lazy');
+                    const thumbWebpSrc = `_thumbs/${folderNum}/${getWebpFileName(images[i])}`;
+                    thumbImg.src = thumbWebpSrc;
+                    
+                    // Тяжелый путь для лайтбокса
+                    const heavyOriginalPath = `${folderNum}/${images[i]}`;
                     
                     const zoomHint = document.createElement('div');
                     zoomHint.className = 'zoom-hint';
@@ -1256,7 +1413,8 @@
 
                     zoomHint.addEventListener('click', (e) => {
                         e.stopPropagation();
-                        openLightbox(imgPath);
+                        // В лайтбокс всегда кидаем тяжелый оригинал
+                        openLightbox(heavyOriginalPath);
                     });
 
                     thumbCard.addEventListener('click', (e) => {
@@ -1273,7 +1431,8 @@
                             triggerToggleGlow();
                             updateDisplayMode();
                         } else {
-                            activeSrc = imgPath;
+                            // Обновляем активный слайдер-ресурс (на легкий WebP)
+                            sliderActiveSrc = `_slider/${folderNum}/${getWebpFileName(images[i])}`;
                             if (!isCurrentlyActive) {
                                 toggleCheckbox.checked = false;
                             } else {
@@ -1285,10 +1444,12 @@
                     });
                 }
 
-                gallery.appendChild(row);
+                // Заменяем DOM-скелетон на готовую полку
+                skeletonNode.replaceWith(row);
             }
 
-            loadAllFolders();
+            // Старт цепочки загрузки
+            loadAllFoldersData();
         });
     </script>
 </body>
