@@ -25,12 +25,7 @@
     "50-3": "2 Festive Tree v3",
     "50-4": "Midnight Christmas Glow",
     "50-5": "Snowfall at the Grand Plaza",
-    "50-6": "Golden Lights of Winter",
-    "50-7": "Christmas Majesty",
-    "50-8": "Festive Night Symphony",
-    "50-9": "The Illuminated Evergreen",
-    "50-10": "Holiday Splendor",
-    "50-11": "Winter Wonderland in Lights"
+    "50-6": "Golden Lights of Winter"
   },
   "1-1": [
     "1-1.jpg",
@@ -122,9 +117,9 @@
     "37 Ethereal Alien Crystal Temple.jpg"
   ],
   "1-8": [
-    "50-1 Cyberpunk Rooftop.jpg",
-    "50-2 Cyberpunk Rooftop v2.jpg",
-    "50.jpg"
+    "50-1.jpg",
+    "50-2 Cyberpunk Rooftop.jpg",
+    "50-3 Cyberpunk Rooftop v2.jpg"
   ],
   "40-10": [
     "35.jpg",
@@ -160,29 +155,5 @@
   "50-6": [
     "1.jpg",
     "2 worker performs a snow cleaning.jpg"
-  ],
-  "50-7": [
-    "1.jpg",
-    "2.jpg",
-    "3.jpg"
-  ],
-  "50-8": [
-    "1.jpg",
-    "2.jpg",
-    "3.jpg"
-  ],
-  "50-9": [
-    "1.jpg",
-    "2.jpg",
-    "3.jpg"
-  ],
-  "50-10": [
-    "1.jpg",
-    "2.jpg",
-    "3.jpg"
-  ],
-  "50-11": [
-    "1.jpg",
-    "2.jpg"
   ]
 }
