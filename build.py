@@ -11,8 +11,8 @@ json_file = 'gallery.json'
 existing_titles = {}
 
 # Папки для сгенерированного кэша (Next-Gen форматы)
-THUMBS_DIR = "_thumbs"
-SLIDER_DIR = "_slider"
+THUMBS_DIR = "thumbs"
+SLIDER_DIR = "slider"
 os.makedirs(THUMBS_DIR, exist_ok=True)
 os.makedirs(SLIDER_DIR, exist_ok=True)
 
